@@ -25,19 +25,16 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -69,6 +66,19 @@ class DefaultFirebaseOptions {
     messagingSenderId: '179683281529',
     projectId: 'study-joy',
     storageBucket: 'study-joy.appspot.com',
+    androidClientId: '179683281529-hbiknmh1apn3u45lhnub51rmb3s1en13.apps.googleusercontent.com',
+    iosClientId: '179683281529-ci0uaiepp5tuvc11qnse7o3jii8r8h57.apps.googleusercontent.com',
     iosBundleId: 'com.example.teamwork',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAlT5cZsqYXyM-Wblr1F-Egpbuxi2JDO4Y',
+    appId: '1:179683281529:ios:e5ef5d305bebd9181322a8',
+    messagingSenderId: '179683281529',
+    projectId: 'study-joy',
+    storageBucket: 'study-joy.appspot.com',
+    androidClientId: '179683281529-hbiknmh1apn3u45lhnub51rmb3s1en13.apps.googleusercontent.com',
+    iosClientId: '179683281529-lim1e222vbast21m0ht3mlkl45ur478q.apps.googleusercontent.com',
+    iosBundleId: 'com.example.teamwork.RunnerTests',
   );
 }

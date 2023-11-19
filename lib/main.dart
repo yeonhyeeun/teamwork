@@ -1,20 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'nav.dart';
+import 'package:provider/provider.dart';
+import 'package:teamwork/login.dart';
+import 'package:teamwork/nav.dart';
+
+import 'app.dart';
 
 
-void main() {
-  runApp(const MyApp());
-}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'StudyJoy',
-      home: BottomNavigation(),
-    );
-  }
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => StudyJoyAppState(),
+      child:  StudyJoyApp(),
+    ),
+  );
 }

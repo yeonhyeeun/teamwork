@@ -196,4 +196,16 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# FlutterFire Congigure
+lib/firebase_options.dart
+ios/Runner/GoogleService-Info.plist
+ios/firebase_app_id_file.json
+macos/Runner/GoogleService-Info.plist
+macos/firebase_app_id_file.json
+android/app/google-services.json
+
 # End of https://www.toptal.com/developers/gitignore/api/flutter,androidstudio
+
