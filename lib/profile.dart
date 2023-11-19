@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:teamwork/color/color.dart';
 
+import 'line_chart.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -96,6 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(height: 60),
                           Text(userName!),
                           Text(userEmail!),
+                          LineChartSample2(),
                         ],
                       ),
                     ),
@@ -103,6 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
+
           ],
         ),
       ),

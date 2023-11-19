@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.1.1
   firebase_ui_auth: ^1.10.0
   google_sign_in: ^6.1.5
+  fl_chart: ^0.64.0
 
 dev_dependencies:
   flutter_test:
