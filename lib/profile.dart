@@ -54,6 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: CustomColor.primary,
+        elevation: 0.0,
         actions: [
           IconButton(
             onPressed: () => _signOut(context),
