@@ -55,5 +55,26 @@
       });
     });
   </script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js"></script>
+
+  <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyCg4VH2g17hbJgzew_6lyC6F_PpwXVPKEk",
+    authDomain: "study-joy.firebaseapp.com",
+    projectId: "study-joy",
+    storageBucket: "study-joy.appspot.com",
+    messagingSenderId: "179683281529",
+    appId: "1:179683281529:web:9bb9abcfcda0584d1322a8"
+  };
+
+   firebase.initializeApp(firebaseConfig);
+   firebase.analytics();
+
+
+  </script>
+
 </body>
 </html>
