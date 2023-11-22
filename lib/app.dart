@@ -5,6 +5,7 @@ import 'login.dart';
 
 class StudyJoyApp extends StatefulWidget {
   const StudyJoyApp({Key? key}) : super(key: key);
+
   @override
   State<StudyJoyApp> createState() => _StudyJoyAppState();
 }
@@ -26,20 +27,18 @@ class _StudyJoyAppState extends State<StudyJoyApp> {
 
 class StudyJoyAppState extends ChangeNotifier {
   var favorites = <Lecture>[];
+
   void tappedFavorite(Lecture lecture) {
-    if(favorites.contains(lecture)) {
+    if (favorites.contains(lecture)) {
       favorites.remove(lecture);
-    }
-    else {
+    } else {
       favorites.add(lecture);
     }
     notifyListeners();
   }
+
   void removedFavorite(Lecture lecture) {
     favorites.remove(lecture);
     notifyListeners();
   }
-
-
-
 }
