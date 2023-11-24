@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  // 기존 로그인 코드
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
@@ -31,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     return authResult;
   }
 
+
   Future<UserCredential> signInAnonymously() async {
     return await _auth.signInAnonymously();
   }
@@ -40,9 +42,8 @@ class _LoginPageState extends State<LoginPage> {
       context,
       MaterialPageRoute(builder: (context) => BottomNavigation()),
     );
-
-
   }
+
 
   @override
   Widget build(BuildContext context) {
