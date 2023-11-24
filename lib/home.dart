@@ -255,17 +255,15 @@ class _HomePageState extends State<HomePage> {
                 stream: FirebaseFirestore.instance
                     .collection('lecture')
                     .snapshots(),
+                //FirebaseFirestore.instance
+                //       .collection('lecture')
+                //       .select(['name']) // 필요한 필드만 선택
+                //       .snapshots()
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const CircularProgressIndicator(); // Loading indicator
                   }
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Text(
-                        'No data available'); // You can replace this with an appropriate message or widget.
-                  }
+
                   var lectures = snapshot.data!.docs;
 
                   return GridView.builder(
@@ -282,12 +280,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                     itemCount: lectures.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var document = snapshot.data!.docs[index];
+                      var document = lectures[index];
                       var lectureName = document['name'];
                       return InkWell(
                         onTap: () async {
                           String lectureName = document['name'];
-
                           // Check if the lectureName is already in the lectureList
                           if (userUID != null) {
                             try {

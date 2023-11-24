@@ -73,29 +73,32 @@ class _StudyPageState extends State<StudyPage> {
                       Column(
                         children: [
                           SizedBox(height: 10,),
-                          SizedBox(
-                            height: 70,
-                            width: 320,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient : LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: [Color(0xfffff1eb),Color(0xfface0f9)]
-                                  ),
-                                  borderRadius: BorderRadius.circular(17),
+                          InkWell(
+                            onTap: () {},
+                            child: SizedBox(
+                              height: 70,
+                              width: 320,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    lecture,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient : LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [Color(0xfffff1eb),Color(0xfface0f9)]
+                                    ),
+                                    borderRadius: BorderRadius.circular(17),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      lecture,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),

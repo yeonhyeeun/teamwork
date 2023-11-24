@@ -28,7 +28,7 @@ class _StudyJoyAppState extends State<StudyJoyApp> {
 class StudyJoyAppState extends ChangeNotifier {
   var favorites = <Lecture>[];
 
-  void tappedFavorite(Lecture lecture) {
+  void tappedLecture(Lecture lecture) {
     if (favorites.contains(lecture)) {
       favorites.remove(lecture);
     } else {
@@ -37,7 +37,7 @@ class StudyJoyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removedFavorite(Lecture lecture) {
+  void removedLecture(Lecture lecture) {
     favorites.remove(lecture);
     notifyListeners();
   }
