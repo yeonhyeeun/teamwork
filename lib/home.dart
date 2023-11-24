@@ -52,11 +52,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
+
         // Set physics to AlwaysScrollableScrollPhysics
         child: Column(
           children: <Widget>[
@@ -100,7 +102,8 @@ class _HomePageState extends State<HomePage> {
                     size: 40,
                   ),
                   const Text(
-                    '컴퓨터 네트워크 퀴즈',
+                    // '$lectureList[] 퀴즈', // 작동할 수 있게 user의 lectureList 항목 개별로 가져올 수 있도록
+                    'Computer Network 퀴즈',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -260,9 +263,10 @@ class _HomePageState extends State<HomePage> {
                     .collection('lecture')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const CircularProgressIndicator(); // Loading indicator
-                  }
+                  // 이 부분에서 stateful+hasData을 사용하면서 데이터를 계속 거의 무한으로 가져오게 됨 -> 에러 원인
+                  // if (!snapshot.hasData) {
+                  //   return const CircularProgressIndicator(); // Loading indicator
+                  // }
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
