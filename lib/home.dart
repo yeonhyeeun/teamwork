@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:teamwork/login.dart';
 import 'package:teamwork/search.dart';
 import 'color/color.dart';
 import 'dart:async';
@@ -19,12 +20,15 @@ class _HomePageState extends State<HomePage> {
   num _value = 0;
   num point = 200;
   String? userUID;
+  String? userName;
 
-  void fetchUserUID() {
+  void fetchUser() {
     User? user = FirebaseAuth.instance.currentUser;
+
     if (user != null) {
       setState(() {
         userUID = user.uid;
+        userName = user.displayName;
       });
     }
   }
@@ -32,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    fetchUserUID();
+    fetchUser();
     _startAutoAnimation();
   }
 
@@ -63,8 +67,8 @@ class _HomePageState extends State<HomePage> {
               margin: const EdgeInsets.symmetric(
                 horizontal: 20,
               ),
-              child: const Text(
-                '안녕하세요 홍길동님',
+              child: Text(
+                '안녕하세요 ${userName}님',
                 style: TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.bold,
@@ -359,6 +363,14 @@ class _HomePageState extends State<HomePage> {
                                   'Error checking/updating user document: $e');
                               // Handle the error as needed
                             }
+                          }
+                          // userUID 값이 Null일 경우 에러 문 출력 + 로그인 페이지로 이동하기
+                          else {
+                            print("Error userUID is null!!");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginPage()),
+                            );
                           }
                         },
                         child: SizedBox(

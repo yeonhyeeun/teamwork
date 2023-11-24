@@ -15,6 +15,8 @@ class _ProfilePageState extends State<ProfilePage> {
   String? userEmail;
   String? userPhoto;
   String? userName;
+  // 전공 추가
+  // String? userMajor;
   bool isGoogleSignIn = false;
 
   void _signOut(BuildContext context) async {
@@ -42,6 +44,8 @@ class _ProfilePageState extends State<ProfilePage> {
         userEmail = user.email;
         userPhoto = user.photoURL;
         userName = user.displayName;
+        // 전공 추가
+        // userMajor = user.major;
       });
     }
   }
@@ -67,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 73,),
+            // SizedBox(height: 73,),
             Container(
               width: 380,
               height: 550,
@@ -97,8 +101,33 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         children: [
                           SizedBox(height: 60),
-                          Text(userName!),
-                          Text(userEmail!),
+                          Row(
+                            children: [
+                              Text("이름 : ",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
+                              Text(userName!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Text("계정 이메일 : ",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
+                              Text(userEmail!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Text("전공 : ",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
+                              Text(userEmail!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                            ],
+                          ),
+
                           LineChartSample2(),
                         ],
                       ),
