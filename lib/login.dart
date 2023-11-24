@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  // 기존 로그인 코드
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
@@ -31,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     return authResult;
   }
 
+
   Future<UserCredential> signInAnonymously() async {
     return await _auth.signInAnonymously();
   }
@@ -40,9 +42,8 @@ class _LoginPageState extends State<LoginPage> {
       context,
       MaterialPageRoute(builder: (context) => BottomNavigation()),
     );
-
-
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +67,19 @@ class _LoginPageState extends State<LoginPage> {
                     final String? photoUrl = userCredential.user?.photoURL;
                     final String? name = userCredential.user?.displayName;
 
-                    await _firestore.collection('user').doc(uid).set({
-                      'uid': uid,
-                      'email': email ?? '',
-                      'photoUrl': photoUrl ?? '',
-                      'status_message' : 'I promise to take the test honestly before GOD.',
-                      'name': name,
-                    });
+                    // Check if the user document already exists
+                    var userDoc = await _firestore.collection('user').doc(uid).get();
+
+                    if (!userDoc.exists || userDoc['lectureList'] == null) {
+                      // If the user document doesn't exist or lectureList is null, create it with an empty lectureList
+                      await _firestore.collection('user').doc(uid).set({
+                        'uid': uid,
+                        'email': email ?? '',
+                        'photoUrl': photoUrl ?? '',
+                        'name': name,
+                        'lectureList': [],
+                      });
+                    }
                   }
                 },
                 child: Row(
@@ -101,4 +108,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
