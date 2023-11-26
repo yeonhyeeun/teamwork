@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:teamwork/color/color.dart';
 
 class StudyPage extends StatefulWidget {
@@ -36,7 +37,7 @@ class _StudyPageState extends State<StudyPage> {
         centerTitle: true,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        title: const Text('수강 목록',style: TextStyle(color: Colors.white),),
+        title: Text('수강 목록',style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('user').snapshots(),
@@ -67,7 +68,7 @@ class _StudyPageState extends State<StudyPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: 10,),
-                    Text('${userDocument['name']}의 스터디룸',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    Text('${userDocument['name']}의 스터디룸',style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
                     for (var lecture in lectureList)
                       Column(
                         children: [
@@ -94,10 +95,7 @@ class _StudyPageState extends State<StudyPage> {
                                     alignment: Alignment.center,
                                     child: Text(
                                       lecture,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.w800,fontSize: 20),
                                     ),
                                   ),
                                 ),

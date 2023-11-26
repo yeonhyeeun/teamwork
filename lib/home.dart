@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:teamwork/login.dart';
 import 'package:teamwork/search.dart';
@@ -64,17 +65,9 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 50,
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: Text(
-                '안녕하세요 ${userName}님',
-                style: TextStyle(
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            Text(
+              '안녕하세요 ${userName}님',
+              style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
             ),
             const SizedBox(
               height: 20,
@@ -99,13 +92,10 @@ class _HomePageState extends State<HomePage> {
                       Icons.computer,
                       size: 40,
                     ),
-                    const Text(
+                    Text(
                       // '$lectureList[] 퀴즈', // 작동할 수 있게 user의 lectureList 항목 개별로 가져올 수 있도록
                       'Computer Network 퀴즈',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: GoogleFonts.nanumGothic(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),
                     ),
                     ElevatedButton(
                       onPressed: () {},
@@ -113,14 +103,11 @@ class _HomePageState extends State<HomePage> {
                         elevation: 0.0,
                         padding: EdgeInsets.zero,
                         backgroundColor: CustomColor.brightRed,
-                        textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
+                        textStyle: GoogleFonts.nanumGothic(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)
                       ),
                       child: Text(
                         '이어서',
-                        style: TextStyle(color: Colors.white),
+                        style: GoogleFonts.nanumGothic(color: Colors.white),
                       ),
                     ),
                   ],
@@ -145,9 +132,9 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                       Text(
                         'Quiz',
-                        style: TextStyle(color: Colors.white),
+                        style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 5,
@@ -164,24 +151,16 @@ class _HomePageState extends State<HomePage> {
                           progressColor: CustomColor.brightRed,
                           backgroundColor: Colors.white,
                           circularStrokeCap: CircularStrokeCap.round,
-                          center: const Column(
+                          center:  Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 '37/50',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12),
                               ),
                               Text(
                                 'Quiz played',
-                                style: TextStyle(
-                                  fontSize: 6,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 5),
                               ),
                             ],
                           ),
@@ -200,9 +179,9 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                       Text(
                         'Point',
-                        style: TextStyle(color: Colors.white),
+                        style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 5,
@@ -219,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                           duration: const Duration(milliseconds: 1000),
                           value: _value,
                           suffix: 'P',
-                          textStyle: TextStyle(color: Colors.white),
+                          textStyle: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -232,12 +211,12 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.white,
                     ),
                   ),
-                  const Column(
+                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'D+DAY',
-                        style: TextStyle(color: Colors.white),
+                        style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
                       ),
                       Stack(
                         alignment: AlignmentDirectional.center,
@@ -247,11 +226,11 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white,
                             size: 55,
                           ),
-                          Text(
-                            '7',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
+                          Transform.translate(
+                            offset: Offset(0,4),
+                            child: Text(
+                              '7',
+                              style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -296,108 +275,108 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (BuildContext context, int index) {
                       var document = lectures[index];
                       var lectureName = document['name'];
-                      return InkWell(
-                        onTap: () async {
-                          String lectureName = document['name'];
-                          // Check if the lectureName is already in the lectureList
-                          if (userUID != null) {
-                            try {
-                              var userDoc = await FirebaseFirestore.instance
-                                  .collection('user')
-                                  .doc(userUID)
-                                  .get();
-                              var lectureList = userDoc['lectureList'] ?? [];
-
-                              if (lectureList.contains(lectureName)) {
-                                // The lecture is already in the list, show an alert
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    backgroundColor: Colors.white,
-                                    elevation: 0,
-                                    title: const Text('알림'),
-                                    content: Text(
-                                        '$lectureName 과목은 이미 수강 목록에 있습니다.'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('확인'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                                return;
-                              }
-
-                              // Show the confirmation dialog
-                              // ignore: use_build_context_synchronously
-                              var result = await showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  backgroundColor: Colors.white,
-                                  elevation: 0.0,
-                                  title: const Text('강의 수강하기'),
-                                  content: Text('$lectureName을 수강하시겠습니까?'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Cancel'),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'OK'),
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                ),
-                              );
-
-                              // Check the result and update Firebase if the user clicked 'OK'
-                              if (result == 'OK') {
-                                // Update Firebase with the lecture name
-                                await FirebaseFirestore.instance
-                                    .collection('user')
-                                    .doc(userUID)
-                                    .update({
-                                  'lectureList':
-                                      FieldValue.arrayUnion([lectureName])
-                                });
-
-                                // You can add additional logic or UI updates here
-                                print(
-                                    'Lecture added to the user\'s lectureList');
-                              }
-                            } catch (e) {
-                              print(
-                                  'Error checking/updating user document: $e');
-                              // Handle the error as needed
-                            }
-                          }
-                          // userUID 값이 Null일 경우 에러 문 출력 + 로그인 페이지로 이동하기
-                          else {
-                            print("Error userUID is null!!");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                            );
-                          }
-                        },
-                        child: SizedBox(
-                          height: 300,
-                          child: Card(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: const BorderSide(
-                                color: CustomColor.primary,
-                                width: 2,
-                              ),
+                      return SizedBox(
+                        height: 300,
+                        child: Card(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: const BorderSide(
+                              color: CustomColor.primary,
+                              width: 2,
                             ),
-                            elevation: 0,
-                            clipBehavior: Clip.antiAlias,
+                          ),
+                          elevation: 0,
+                          clipBehavior: Clip.antiAlias,
+                          child: InkWell(
+                            onTap: () async {
+                              String lectureName = document['name'];
+                              // Check if the lectureName is already in the lectureList
+                              if (userUID != null) {
+                                try {
+                                  var userDoc = await FirebaseFirestore.instance
+                                      .collection('user')
+                                      .doc(userUID)
+                                      .get();
+                                  var lectureList = userDoc['lectureList'] ?? [];
+
+                                  if (lectureList.contains(lectureName)) {
+                                    // The lecture is already in the list, show an alert
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        elevation: 0,
+                                        title: const Text('알림'),
+                                        content: Text(
+                                            '$lectureName 과목은 이미 수강 목록에 있습니다.'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(context),
+                                            child: const Text('확인'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                    return;
+                                  }
+
+                                  // Show the confirmation dialog
+                                  // ignore: use_build_context_synchronously
+                                  var result = await showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) => AlertDialog(
+                                      backgroundColor: Colors.white,
+                                      elevation: 0.0,
+                                      title: const Text('강의 수강하기'),
+                                      content: Text('$lectureName을 수강하시겠습니까?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'Cancel'),
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'OK'),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+
+                                  // Check the result and update Firebase if the user clicked 'OK'
+                                  if (result == 'OK') {
+                                    // Update Firebase with the lecture name
+                                    await FirebaseFirestore.instance
+                                        .collection('user')
+                                        .doc(userUID)
+                                        .update({
+                                      'lectureList':
+                                          FieldValue.arrayUnion([lectureName])
+                                    });
+
+                                    // You can add additional logic or UI updates here
+                                    print(
+                                        'Lecture added to the user\'s lectureList');
+                                  }
+                                } catch (e) {
+                                  print(
+                                      'Error checking/updating user document: $e');
+                                  // Handle the error as needed
+                                }
+                              }
+                              // userUID 값이 Null일 경우 에러 문 출력 + 로그인 페이지로 이동하기
+                              else {
+                                print("Error userUID is null!!");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()),
+                                );
+                              }
+                            },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,10 +393,7 @@ class _HomePageState extends State<HomePage> {
                                     children: <Widget>[
                                       Text(
                                         lectureName,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                        ),
+                                        style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
                                       ),
