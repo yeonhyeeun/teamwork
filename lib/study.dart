@@ -74,15 +74,17 @@ class _StudyPageState extends State<StudyPage> {
                       Column(
                         children: [
                           SizedBox(height: 10,),
-                          InkWell(
-                            onTap: () {},
-                            child: SizedBox(
-                              height: 70,
-                              width: 320,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
+                          SizedBox(
+                            height: 70,
+                            width: 320,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/quiz');
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     gradient : LinearGradient(
