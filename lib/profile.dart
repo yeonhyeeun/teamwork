@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Page'),
+        title: Text('My Page',style: TextStyle(color: Colors.white),),
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: CustomColor.primary,
@@ -68,10 +68,9 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 73,),
             Container(
               width: 400,
               height: 550,

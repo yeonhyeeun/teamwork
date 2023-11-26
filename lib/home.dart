@@ -84,43 +84,45 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 14,
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              height: 85,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: CustomColor.yellow,
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Icon(
-                    Icons.computer,
-                    size: 40,
-                  ),
-                  const Text(
-                    // '$lectureList[] 퀴즈', // 작동할 수 있게 user의 lectureList 항목 개별로 가져올 수 있도록
-                    'Computer Network 퀴즈',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                height: 85,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: CustomColor.yellow,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Icon(
+                      Icons.computer,
+                      size: 40,
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomColor.brightRed,
-                      textStyle: const TextStyle(
+                    const Text(
+                      // '$lectureList[] 퀴즈', // 작동할 수 있게 user의 lectureList 항목 개별로 가져올 수 있도록
+                      'Computer Network 퀴즈',
+                      style: TextStyle(
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
                       ),
                     ),
-                    child: const Text('이어서'),
-                  ),
-                ],
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0.0,
+                        padding: EdgeInsets.zero,
+                        backgroundColor: CustomColor.brightRed,
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      child: Text('이어서',style: TextStyle(color: Colors.white),),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(
@@ -215,6 +217,7 @@ class _HomePageState extends State<HomePage> {
                           duration: const Duration(milliseconds: 1000),
                           value: _value,
                           suffix: 'P',
+                          textStyle: TextStyle(color: Colors.white),
                         ),
                       ),
                     ],
@@ -310,6 +313,8 @@ class _HomePageState extends State<HomePage> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       AlertDialog(
+                                        backgroundColor: Colors.white,
+                                    elevation: 0,
                                     title: const Text('알림'),
                                     content: Text(
                                         '$lectureName 과목은 이미 수강 목록에 있습니다.'),
@@ -329,6 +334,8 @@ class _HomePageState extends State<HomePage> {
                               var result = await showDialog<String>(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
+                                  backgroundColor: Colors.white,
+                                  elevation: 0.0,
                                   title: const Text('강의 수강하기'),
                                   content: Text('$lectureName을 수강하시겠습니까?'),
                                   actions: <Widget>[
@@ -387,7 +394,7 @@ class _HomePageState extends State<HomePage> {
                                 width: 2,
                               ),
                             ),
-                            elevation: 4,
+                            elevation: 0,
                             clipBehavior: Clip.antiAlias,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,

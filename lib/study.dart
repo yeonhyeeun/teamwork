@@ -36,7 +36,7 @@ class _StudyPageState extends State<StudyPage> {
         centerTitle: true,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        title: const Text('수강 목록'),
+        title: const Text('수강 목록',style: TextStyle(color: Colors.white),),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('user').snapshots(),
