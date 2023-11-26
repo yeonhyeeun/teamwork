@@ -48,8 +48,7 @@ class _StudyPageState extends State<StudyPage> {
             return Text('Error: ${snapshot.error}');
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Text(
-                'No data available'); // You can replace this with an appropriate message or widget.
+            return Container();
           }
 
           var documents = snapshot.data!.docs;

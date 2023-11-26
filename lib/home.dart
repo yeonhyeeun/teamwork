@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +118,10 @@ class _HomePageState extends State<HomePage> {
                           fontSize: 14,
                         ),
                       ),
-                      child: Text('이어서',style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        '이어서',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
@@ -274,8 +276,7 @@ class _HomePageState extends State<HomePage> {
                     return Text('Error: ${snapshot.error}');
                   }
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Text(
-                        'No data available'); // You can replace this with an appropriate message or widget.
+                    return Container();
                   }
                   var lectures = snapshot.data!.docs;
 
@@ -313,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       AlertDialog(
-                                        backgroundColor: Colors.white,
+                                    backgroundColor: Colors.white,
                                     elevation: 0,
                                     title: const Text('알림'),
                                     content: Text(
@@ -379,7 +380,8 @@ class _HomePageState extends State<HomePage> {
                             print("Error userUID is null!!");
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => LoginPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
                             );
                           }
                         },
