@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teamwork/color/color.dart';
 
@@ -91,12 +92,20 @@ class _StudyPageState extends State<StudyPage> {
                                     ),
                                     borderRadius: BorderRadius.circular(17),
                                   ),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      lecture,
-                                      style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.w800,fontSize: 20),
-                                    ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/icons/computer.svg',
+                                        width: 50,
+                                        height: 50,
+                                      ),
+                                      Text(
+                                        lecture,
+                                        style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.w800,fontSize: 20),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
