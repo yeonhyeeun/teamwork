@@ -41,9 +41,9 @@ class _StudyPageState extends State<StudyPage> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('user').snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator()); // Loading indicator
-          }
+          // if (!snapshot.hasData) {
+          //   return const Center(child: CircularProgressIndicator()); // Loading indicator
+          // }
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           }
