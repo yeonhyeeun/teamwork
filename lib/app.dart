@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:teamwork/model/lecture.dart';
 import 'package:teamwork/nav.dart';
 import 'package:teamwork/quiz.dart';
+import 'package:teamwork/study.dart';
 import 'login.dart';
+import 'addquiz.dart';
 
 class StudyJoyApp extends StatefulWidget {
   const StudyJoyApp({Key? key}) : super(key: key);
@@ -21,7 +23,7 @@ class _StudyJoyAppState extends State<StudyJoyApp> {
       routes: {
         '/': (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => BottomNavigation(),
-        '/quiz': (BuildContext context) => QuizPage(),
+        '/study':(BuildContext context) => StudyPage(),
       },
     );
   }

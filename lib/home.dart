@@ -292,7 +292,8 @@ class _HomePageState extends State<HomePage> {
                           clipBehavior: Clip.antiAlias,
                           child: InkWell(
                             onTap: () async {
-                              String lectureName = document['name'];
+                              String lectureName = document['documentID'];
+                              String name = document['name'];
                               // Check if the lectureName is already in the lectureList
                               if (userUID != null) {
                                 try {
@@ -312,7 +313,7 @@ class _HomePageState extends State<HomePage> {
                                         elevation: 0,
                                         title: const Text('알림'),
                                         content: Text(
-                                            '$lectureName 과목은 이미 수강 목록에 있습니다.'),
+                                            '$name 과목은 이미 수강 목록에 있습니다.'),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () => Navigator.pop(context),
@@ -332,7 +333,7 @@ class _HomePageState extends State<HomePage> {
                                       backgroundColor: Colors.white,
                                       elevation: 0.0,
                                       title: const Text('강의 수강하기'),
-                                      content: Text('$lectureName을 수강하시겠습니까?'),
+                                      content: Text('$name을 수강하시겠습니까?'),
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () =>
