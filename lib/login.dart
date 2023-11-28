@@ -82,12 +82,16 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   }
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                   children: [
-                    SizedBox(width: 10,),
-                    Text('구글 계정으로 시작하기',
-                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 10,),
+                        Text('구글 계정으로 시작하기',
+                          style: TextStyle(color: Colors.white, fontSize: 15.0),
+                        ),
+                      ],
                     ),
                   ],
                 ),
