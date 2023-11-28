@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:teamwork/color/color.dart';
+import 'package:teamwork/quiz.dart';
 
 class StudyPage extends StatefulWidget {
   const StudyPage({Key? key}) : super(key: key);
@@ -36,20 +39,22 @@ class _StudyPageState extends State<StudyPage> {
         centerTitle: true,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        title: const Text('수강 목록'),
+        title: Text(
+          '수강 목록',
+          style: GoogleFonts.nanumGothic(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('user').snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator()); // Loading indicator
-          }
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Text(
-                'No data available'); // You can replace this with an appropriate message or widget.
+            return Container();
           }
 
           var documents = snapshot.data!.docs;
@@ -68,44 +73,76 @@ class _StudyPageState extends State<StudyPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: 10,),
-                    Text('${userDocument['name']}의 스터디룸',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                    for (var lecture in lectureList)
-                      Column(
-                        children: [
-                          SizedBox(height: 10,),
-                          SizedBox(
-                            height: 70,
-                            width: 320,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient : LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: [Color(0xfffff1eb),Color(0xfface0f9)]
+                    Text(
+                      '${userDocument['name']}의 스터디룸',
+                      style: GoogleFonts.nanumGothic(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    for (var lectureId in lectureList)
+                      FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance.collection('lecture').doc(lectureId).get(),
+                        builder: (context, lectureSnapshot) {
+                          if (lectureSnapshot.hasError) {
+                            return Text('Error: ${lectureSnapshot.error}');
+                          }
+
+                          if (!lectureSnapshot.hasData) {
+                            return Container();
+                          }
+
+                          var lectureData = lectureSnapshot.data!;
+                          var lectureName = lectureData['name'];
+
+                          return Column(
+                            children: [
+                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 70,
+                                width: 320,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                  borderRadius: BorderRadius.circular(17),
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    lecture,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => QuizPage(lectureId: lectureId),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient : LinearGradient(
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                            colors: [Color(0xfffff1eb),Color(0xfface0f9)]
+                                        ),
+                                        borderRadius: BorderRadius.circular(17),
+                                      ),
+                                      child: Align(
+                                        alignment : Alignment.center,
+                                        child: Text(
+                                          lectureName,
+                                          style: GoogleFonts.nanumGothic(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 23,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-
-                        ],
+                            ],
+                          );
+                        },
                       ),
-
                   ],
                 );
               } else {
@@ -119,7 +156,3 @@ class _StudyPageState extends State<StudyPage> {
     );
   }
 }
-
-
-
-

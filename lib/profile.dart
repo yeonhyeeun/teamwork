@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:teamwork/color/color.dart';
 
@@ -54,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Page'),
+        title: Text('My Page',style: GoogleFonts.abrilFatface(color: Colors.white,fontSize: 25)),
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: CustomColor.primary,
@@ -68,12 +69,11 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // SizedBox(height: 73,),
             Container(
-              width: 380,
+              width: 400,
               height: 550,
               child: Card(
                 color: Colors.white,
@@ -97,7 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
                           SizedBox(height: 60),
@@ -123,10 +123,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Text("전공 : ",
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
-                              Text(userEmail!,
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                            //   Text(userMajor!,
+                            //       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                             ],
                           ),
+
+                          SizedBox(height: 20,),
 
                           LineChartSample2(),
                         ],
