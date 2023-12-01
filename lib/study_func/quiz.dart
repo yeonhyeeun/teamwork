@@ -151,7 +151,7 @@ class _QuizPageState extends State<QuizPage> {
           children: [
             Container(
               width: 400,
-              height: 550,
+              height: 600,
               child: Card(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -159,12 +159,18 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 child: Column(
                   children: [
-                    Text(
-                      quizData.isNotEmpty
-                          ? quizData[currentQuestionIndex]['questionText']
-                          : '',
-                      style: GoogleFonts.nanumGothic(
-                          fontSize: 25, fontWeight: FontWeight.bold),
+                    SizedBox(height: 15,),
+
+                    // 문제 지문
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
+                      child: Text(
+                        quizData.isNotEmpty
+                            ? quizData[currentQuestionIndex]['questionText']
+                            : '',
+                        style: GoogleFonts.nanumGothic(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     ...(quizData.isNotEmpty
                         ? List.generate(
@@ -175,6 +181,7 @@ class _QuizPageState extends State<QuizPage> {
                           onTap: () {
                             onAnswerSelected(index);
                           },
+
                           child: SizedBox(
                             height: 70, // Adjust the height as needed
                             child: Container(
@@ -188,10 +195,11 @@ class _QuizPageState extends State<QuizPage> {
                                 ),
                               ),
                               child: Center(
+                                // 문제 선지
                                 child: Text(
                                   quizData[currentQuestionIndex]['choices'][index],
                                   style: GoogleFonts.nanumGothic(
-                                    fontSize: 23,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
