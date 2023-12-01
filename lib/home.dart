@@ -249,10 +249,6 @@ class _HomePageState extends State<HomePage> {
                     .collection('lecture')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  // 이 부분에서 stateful+hasData을 사용하면서 데이터를 계속 거의 무한으로 가져오게 됨 -> 에러 원인
-                  // if (!snapshot.hasData) {
-                  //   return const CircularProgressIndicator(); // Loading indicator
-                  // }
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }

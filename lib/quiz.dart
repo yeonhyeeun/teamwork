@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import 'color/color.dart';
 
@@ -116,6 +117,7 @@ class _QuizPageState extends State<QuizPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColor.primary,
+        leading: IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_outline_rounded,size: 35,color: CustomColor.brightRed,)),
         title: Text(
           '${currentQuestionIndex + 1} of ${quizData.length}',
           style: GoogleFonts.nanumGothic(
@@ -149,6 +151,14 @@ class _QuizPageState extends State<QuizPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            LinearPercentIndicator(
+              padding: EdgeInsets.zero,
+              percent: (currentQuestionIndex + 1) / quizData.length.toDouble(),
+              lineHeight: 10,
+              backgroundColor: Colors.white,
+              progressColor: CustomColor.brightRed,
+              width: MediaQuery.of(context).size.width,
+            ),
             Container(
               width: 400,
               height: 550,
@@ -159,6 +169,8 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 child: Column(
                   children: [
+                    Text('문제 ${currentQuestionIndex + 1}',style: GoogleFonts.nanumGothic(
+                        fontSize: 20, fontWeight: FontWeight.bold),),
                     Text(
                       quizData.isNotEmpty
                           ? quizData[currentQuestionIndex]['questionText']
