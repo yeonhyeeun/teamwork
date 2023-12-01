@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teamwork/model/lecture.dart';
 import 'package:teamwork/nav.dart';
 import 'package:teamwork/quiz.dart';
+import 'package:teamwork/splash.dart';
 import 'package:teamwork/study.dart';
 import 'login.dart';
 import 'addquiz.dart';
@@ -21,7 +22,8 @@ class _StudyJoyAppState extends State<StudyJoyApp> {
       title: 'StudyJoy',
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => LoginPage(),
+        '/': (BuildContext context) => SplashPage(),
+        '/login' : (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => BottomNavigation(),
         '/study':(BuildContext context) => StudyPage(),
       },
