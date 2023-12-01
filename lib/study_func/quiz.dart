@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:teamwork/color/color.dart';
 
-
+import 'color/color.dart';
 
 class QuizPage extends StatefulWidget {
   final String lectureId;
@@ -27,23 +26,20 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Future<void> fetchDataFromFirestore() async {
-    //quizData가 비어있을때만
-    if (quizData.isEmpty) {
-      try {
-        var snapshot = await FirebaseFirestore.instance
-            .collection('lecture')
-            .doc(widget.lectureId)
-            .get();
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('lecture')
+          .doc(widget.lectureId)
+          .get();
 
-        List<Map<dynamic, dynamic>> fetchedQuizData =
-        List<Map<dynamic, dynamic>>.from(snapshot['questions']);
+      List<Map<dynamic, dynamic>> fetchedQuizData =
+      List<Map<dynamic, dynamic>>.from(snapshot['questions']);
 
-        setState(() {
-          quizData = fetchedQuizData;
-        });
-      } catch (e) {
-        print('Error fetching data from Firestore: $e');
-      }
+      setState(() {
+        quizData = fetchedQuizData;
+      });
+    } catch (e) {
+      print('Error fetching data from Firestore: $e');
     }
   }
 
@@ -156,22 +152,16 @@ class _QuizPageState extends State<QuizPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LinearPercentIndicator(
-              alignment: MainAxisAlignment.center,
-              animation: true,
-              barRadius: Radius.circular(20),
               padding: EdgeInsets.zero,
-              percent: quizData.isNotEmpty
-                  ? (currentQuestionIndex + 1) / quizData.length.toDouble()
-                  : 0.0, // 수정된 부분
+              percent: (currentQuestionIndex + 1) / quizData.length.toDouble(),
               lineHeight: 10,
               backgroundColor: Colors.white,
               progressColor: CustomColor.brightRed,
-              width: 340,
+              width: MediaQuery.of(context).size.width,
             ),
-            SizedBox(height: 10,),
             Container(
               width: 400,
-              height: 600,
+              height: 550,
               child: Card(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -179,17 +169,14 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 15,),
-                    // 문제 지문
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
-                      child: Text(
-                        quizData.isNotEmpty
-                            ? quizData[currentQuestionIndex]['questionText']
-                            : '',
-                        style: GoogleFonts.nanumGothic(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
+                    Text('문제 ${currentQuestionIndex + 1}',style: GoogleFonts.nanumGothic(
+                        fontSize: 20, fontWeight: FontWeight.bold),),
+                    Text(
+                      quizData.isNotEmpty
+                          ? quizData[currentQuestionIndex]['questionText']
+                          : '',
+                      style: GoogleFonts.nanumGothic(
+                          fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     ...(quizData.isNotEmpty
                         ? List.generate(
@@ -200,7 +187,6 @@ class _QuizPageState extends State<QuizPage> {
                           onTap: () {
                             onAnswerSelected(index);
                           },
-
                           child: SizedBox(
                             height: 70, // Adjust the height as needed
                             child: Container(
@@ -214,11 +200,10 @@ class _QuizPageState extends State<QuizPage> {
                                 ),
                               ),
                               child: Center(
-                                // 문제 선지
                                 child: Text(
                                   quizData[currentQuestionIndex]['choices'][index],
                                   style: GoogleFonts.nanumGothic(
-                                    fontSize: 16,
+                                    fontSize: 23,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
