@@ -35,18 +35,6 @@ class _HomePageState extends State<HomePage> {
     } else {
       print("Error: User is null");
     }
-    else {
-      // user가 null인 경우에 대한 처리 추가
-      // 예를 들어, 로그인 페이지로 이동하거나 적절한 에러 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
-      print("Error: User is null");
-      // 여기에서 로그인 페이지로 이동하는 등의 처리를 추가하십시오.
-    }
-    else {
-      // user가 null인 경우에 대한 처리 추가
-      // 예를 들어, 로그인 페이지로 이동하거나 적절한 에러 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
-      print("Error: User is null");
-      // 여기에서 로그인 페이지로 이동하는 등의 처리를 추가하십시오.
-    }
   }
 
   @override
@@ -286,9 +274,9 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
-                  // if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  //   return Container();
-                  // }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Container();
+                  }
                   var lectures = snapshot.data!.docs;
 
                   return GridView.builder(
@@ -323,9 +311,9 @@ class _HomePageState extends State<HomePage> {
                           clipBehavior: Clip.antiAlias,
                           child: InkWell(
                             onTap: () async {
-                              String lectureName = document['documentID'];
+                              String docID = document['documentID'];
                               String name = document['name'];
-                              // Check if the lectureName is already in the lectureList
+                              // Check if the docID is already in the lectureList
                               if (userUID != null) {
                                 try {
                                   var userDoc = await FirebaseFirestore.instance
@@ -335,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                                   var lectureList =
                                       userDoc['lectureList'] ?? [];
 
-                                  if (lectureList.contains(lectureName)) {
+                                  if (lectureList.contains(docID)) {
                                     // The lecture is already in the list, show an alert
                                     showDialog(
                                       context: context,
@@ -391,7 +379,7 @@ class _HomePageState extends State<HomePage> {
                                         .doc(userUID)
                                         .update({
                                       'lectureList':
-                                          FieldValue.arrayUnion([lectureName])
+                                          FieldValue.arrayUnion([docID])
                                     });
 
                                     // You can add additional logic or UI updates here
