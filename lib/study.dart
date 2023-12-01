@@ -52,9 +52,9 @@ class _StudyPageState extends State<StudyPage> {
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Container();
-          }
+          // if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          //   return Container();
+          // }
 
           var documents = snapshot.data!.docs;
 
@@ -88,9 +88,9 @@ class _StudyPageState extends State<StudyPage> {
                             return Text('Error: ${lectureSnapshot.error}');
                           }
 
-                          if (!lectureSnapshot.hasData) {
-                            return Container();
-                          }
+                          // if (!lectureSnapshot.hasData) {
+                          //   return Container();
+                          // }
 
                           var lectureData = lectureSnapshot.data!;
                           var lectureName = lectureData['name'];
