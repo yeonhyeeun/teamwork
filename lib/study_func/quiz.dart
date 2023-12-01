@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import 'color/color.dart';
+import '../color/color.dart';
+
 
 class QuizPage extends StatefulWidget {
   final String lectureId;
@@ -161,7 +162,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
             Container(
               width: 400,
-              height: 550,
+              height: 600,
               child: Card(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -169,14 +170,18 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 child: Column(
                   children: [
-                    Text('문제 ${currentQuestionIndex + 1}',style: GoogleFonts.nanumGothic(
-                        fontSize: 20, fontWeight: FontWeight.bold),),
-                    Text(
-                      quizData.isNotEmpty
-                          ? quizData[currentQuestionIndex]['questionText']
-                          : '',
-                      style: GoogleFonts.nanumGothic(
-                          fontSize: 25, fontWeight: FontWeight.bold),
+                    SizedBox(height: 15,),
+
+                    // 문제 지문
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
+                      child: Text(
+                        quizData.isNotEmpty
+                            ? quizData[currentQuestionIndex]['questionText']
+                            : '',
+                        style: GoogleFonts.nanumGothic(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     ...(quizData.isNotEmpty
                         ? List.generate(
@@ -187,6 +192,7 @@ class _QuizPageState extends State<QuizPage> {
                           onTap: () {
                             onAnswerSelected(index);
                           },
+
                           child: SizedBox(
                             height: 70, // Adjust the height as needed
                             child: Container(
@@ -200,10 +206,11 @@ class _QuizPageState extends State<QuizPage> {
                                 ),
                               ),
                               child: Center(
+                                // 문제 선지
                                 child: Text(
                                   quizData[currentQuestionIndex]['choices'][index],
                                   style: GoogleFonts.nanumGothic(
-                                    fontSize: 23,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

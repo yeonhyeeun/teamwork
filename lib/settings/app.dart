@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:teamwork/model/lecture.dart';
 import 'package:teamwork/nav.dart';
-import 'package:teamwork/quiz.dart';
 import 'package:teamwork/splash.dart';
 import 'package:teamwork/study.dart';
-import 'login.dart';
-import 'addquiz.dart';
+import '../login.dart';
 
 class StudyJoyApp extends StatefulWidget {
   const StudyJoyApp({Key? key}) : super(key: key);

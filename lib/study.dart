@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teamwork/color/color.dart';
-import 'package:teamwork/quiz.dart';
+import 'package:teamwork/study_func/quiz.dart';
 
 class StudyPage extends StatefulWidget {
   const StudyPage({Key? key}) : super(key: key);

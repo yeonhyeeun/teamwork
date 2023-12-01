@@ -7,9 +7,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:teamwork/login.dart';
-import 'package:teamwork/search.dart';
 import 'color/color.dart';
 import 'dart:async';
+
+import 'home_func/search.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
