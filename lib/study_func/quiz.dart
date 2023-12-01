@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:teamwork/color/color.dart';
 
-import '../color/color.dart';
 
 
 class QuizPage extends StatefulWidget {
@@ -171,7 +171,6 @@ class _QuizPageState extends State<QuizPage> {
                 child: Column(
                   children: [
                     SizedBox(height: 15,),
-
                     // 문제 지문
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
