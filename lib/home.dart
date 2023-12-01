@@ -274,9 +274,9 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return Container();
-                  }
+                  // if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  //   return Container();
+                  // }
                   var lectures = snapshot.data!.docs;
 
                   return GridView.builder(
