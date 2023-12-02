@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:teamwork/home_func/search.dart';
 import 'package:teamwork/login.dart';
-import 'package:teamwork/search.dart';
 import 'color/color.dart';
 import 'dart:async';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -32,6 +33,12 @@ class _HomePageState extends State<HomePage> {
         userUID = user.uid;
         userName = user.displayName;
       });
+    }
+    else {
+      // user가 null인 경우에 대한 처리 추가
+      // 예를 들어, 로그인 페이지로 이동하거나 적절한 에러 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+      print("Error: User is null");
+      // 여기에서 로그인 페이지로 이동하는 등의 처리를 추가하십시오.
     }
   }
 
@@ -249,16 +256,12 @@ class _HomePageState extends State<HomePage> {
                     .collection('lecture')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  // 이 부분에서 stateful+hasData을 사용하면서 데이터를 계속 거의 무한으로 가져오게 됨 -> 에러 원인
-                  // if (!snapshot.hasData) {
-                  //   return const CircularProgressIndicator(); // Loading indicator
-                  // }
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return Container();
-                  }
+                  // if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  //   return Container();
+                  // }
                   var lectures = snapshot.data!.docs;
 
                   return GridView.builder(
@@ -269,7 +272,7 @@ class _HomePageState extends State<HomePage> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 15.0 / 10.0,
+                      childAspectRatio: 15.0 / 11.0,
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
                     ),
@@ -277,6 +280,7 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (BuildContext context, int index) {
                       var document = lectures[index];
                       var lectureName = document['name'];
+                      var icon = document['iconUrl'];
                       return SizedBox(
                         height: 300,
                         child: Card(
@@ -381,24 +385,34 @@ class _HomePageState extends State<HomePage> {
                               }
                             },
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    16.0,
-                                    12.0,
-                                    16.0,
-                                    10,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 7,
                                   ),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
                                       Text(
                                         lectureName,
-                                        style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                        style: GoogleFonts.nanumGothic(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
+                                        softWrap: true,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: SvgPicture.network(
+                                          icon,
+                                          width: 50,
+                                          height: 50,
+                                        ),
                                       ),
                                     ],
                                   ),
