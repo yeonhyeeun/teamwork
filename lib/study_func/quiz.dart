@@ -27,20 +27,23 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Future<void> fetchDataFromFirestore() async {
-    try {
-      var snapshot = await FirebaseFirestore.instance
-          .collection('lecture')
-          .doc(widget.lectureId)
-          .get();
+    //quizData가 비어있을때만
+    if (quizData.isEmpty) {
+      try {
+        var snapshot = await FirebaseFirestore.instance
+            .collection('lecture')
+            .doc(widget.lectureId)
+            .get();
 
-      List<Map<dynamic, dynamic>> fetchedQuizData =
-      List<Map<dynamic, dynamic>>.from(snapshot['questions']);
+        List<Map<dynamic, dynamic>> fetchedQuizData =
+        List<Map<dynamic, dynamic>>.from(snapshot['questions']);
 
-      setState(() {
-        quizData = fetchedQuizData;
-      });
-    } catch (e) {
-      print('Error fetching data from Firestore: $e');
+        setState(() {
+          quizData = fetchedQuizData;
+        });
+      } catch (e) {
+        print('Error fetching data from Firestore: $e');
+      }
     }
   }
 
@@ -153,13 +156,19 @@ class _QuizPageState extends State<QuizPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LinearPercentIndicator(
+              alignment: MainAxisAlignment.center,
+              animation: true,
+              barRadius: Radius.circular(20),
               padding: EdgeInsets.zero,
-              percent: (currentQuestionIndex + 1) / quizData.length.toDouble(),
+              percent: quizData.isNotEmpty
+                  ? (currentQuestionIndex + 1) / quizData.length.toDouble()
+                  : 0.0, // 수정된 부분
               lineHeight: 10,
               backgroundColor: Colors.white,
               progressColor: CustomColor.brightRed,
-              width: MediaQuery.of(context).size.width,
+              width: 340,
             ),
+            SizedBox(height: 10,),
             Container(
               width: 400,
               height: 600,
