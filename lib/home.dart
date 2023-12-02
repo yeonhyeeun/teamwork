@@ -34,6 +34,12 @@ class _HomePageState extends State<HomePage> {
         userName = user.displayName;
       });
     }
+    else {
+      // user가 null인 경우에 대한 처리 추가
+      // 예를 들어, 로그인 페이지로 이동하거나 적절한 에러 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+      print("Error: User is null");
+      // 여기에서 로그인 페이지로 이동하는 등의 처리를 추가하십시오.
+    }
   }
 
   @override
@@ -266,7 +272,7 @@ class _HomePageState extends State<HomePage> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 15.0 / 10.0,
+                      childAspectRatio: 15.0 / 11.0,
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
                     ),
@@ -274,6 +280,7 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (BuildContext context, int index) {
                       var document = lectures[index];
                       var lectureName = document['name'];
+                      var icon = document['iconUrl'];
                       return SizedBox(
                         height: 300,
                         child: Card(
@@ -378,24 +385,34 @@ class _HomePageState extends State<HomePage> {
                               }
                             },
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    16.0,
-                                    12.0,
-                                    16.0,
-                                    10,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 7,
                                   ),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
                                       Text(
                                         lectureName,
-                                        style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                        style: GoogleFonts.nanumGothic(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
+                                        softWrap: true,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: SvgPicture.network(
+                                          icon,
+                                          width: 50,
+                                          height: 50,
+                                        ),
                                       ),
                                     ],
                                   ),
