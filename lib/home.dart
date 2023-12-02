@@ -35,6 +35,12 @@ class _HomePageState extends State<HomePage> {
     } else {
       print("Error: User is null");
     }
+    else {
+      // user가 null인 경우에 대한 처리 추가
+      // 예를 들어, 로그인 페이지로 이동하거나 적절한 에러 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+      print("Error: User is null");
+      // 여기에서 로그인 페이지로 이동하는 등의 처리를 추가하십시오.
+    }
   }
 
   @override
