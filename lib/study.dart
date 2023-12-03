@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teamwork/color/color.dart';
-import 'package:teamwork/quiz.dart';
+import 'package:teamwork/study_func/quiz.dart';
 
 class StudyPage extends StatefulWidget {
   const StudyPage({Key? key}) : super(key: key);
@@ -59,7 +59,7 @@ class _StudyPageState extends State<StudyPage> {
           // }
 
           var documents = snapshot.data!.docs;
-
+          // 강의 리스트 -
           return ListView.builder(
             itemCount: documents.length,
             itemBuilder: (context, index) {
