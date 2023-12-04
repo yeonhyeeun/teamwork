@@ -56,12 +56,12 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
   void onPreviousQuestionPressed() {
-    if (currentQuestionIndex >= 0) {
+    if (currentQuestionIndex > 0) {
       setState(() {
         currentQuestionIndex--;
       });
     } else {
-      // Handle quiz completion or navigate to the next screen.
+
     }
   }
 
