@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:teamwork/color/color.dart';
 import 'package:teamwork/home_func/search.dart';
 import 'package:teamwork/login.dart';
-import 'color/color.dart';
+
 import 'dart:async';
 
 
