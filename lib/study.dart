@@ -214,6 +214,9 @@ class _StudyPageState extends State<StudyPage> {
           if (!snapshot.hasData || !snapshot.data!.exists) {
             return Container();
           }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
 
           var userDocument = snapshot.data!;
           var lectureList = userDocument['lectureList'] ?? [];

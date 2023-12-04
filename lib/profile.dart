@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String? userPhoto;
   String? userName;
   // 전공 추가
-  // String? userMajor;
+  String userMajor = '';
   bool isGoogleSignIn = false;
 
   void _signOut(BuildContext context) async {
@@ -34,11 +35,11 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     fetchUser();
+    fetchMajor();
   }
 
-  void fetchUser() {
+  void fetchUser(){
     User? user = FirebaseAuth.instance.currentUser;
-
     if (user != null) {
       setState(() {
         userUID = user.uid;
@@ -50,6 +51,20 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     }
   }
+  Future<void> fetchMajor() async {
+      try {
+        var snapshot = await FirebaseFirestore.instance
+            .collection('user')
+            .doc(userUID)
+            .get();
+          setState(() {
+            userMajor = snapshot['major'];
+          });
+      } catch (e) {
+        print('Error fetching data from Firestore: $e');
+      }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +141,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Text("전공 : ",
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
-                            //   Text(userMajor!,
-                            //       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                              Text(userMajor!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                             ],
                           ),
 
