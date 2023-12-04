@@ -274,10 +274,9 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
-                  // db에서 다시 에러나서 hasData일단 주석 처리
-                  // if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  //   return Container();
-                  // }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Container();
+                  }
                   var lectures = snapshot.data!.docs;
 
                   return GridView.builder(
