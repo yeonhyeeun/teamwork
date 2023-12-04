@@ -1,7 +1,6 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +10,6 @@ import 'package:teamwork/home_func/search.dart';
 import 'package:teamwork/login.dart';
 
 import 'dart:async';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -34,12 +32,8 @@ class _HomePageState extends State<HomePage> {
         userUID = user.uid;
         userName = user.displayName;
       });
-    }
-    else {
-      // user가 null인 경우에 대한 처리 추가
-      // 예를 들어, 로그인 페이지로 이동하거나 적절한 에러 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+    } else {
       print("Error: User is null");
-      // 여기에서 로그인 페이지로 이동하는 등의 처리를 추가하십시오.
     }
   }
 
@@ -75,8 +69,11 @@ class _HomePageState extends State<HomePage> {
               height: 50,
             ),
             Text(
-              '안녕하세요 ${userName}님',
-              style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
+              '안녕하세요 $userName님',
+              style: GoogleFonts.nanumGothic(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
             ),
             const SizedBox(
               height: 20,
@@ -105,16 +102,21 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       // '$lectureList[] 퀴즈', // 작동할 수 있게 user의 lectureList 항목 개별로 가져올 수 있도록
                       'Computer Network 퀴즈',
-                      style: GoogleFonts.nanumGothic(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),
+                      style: GoogleFonts.nanumGothic(
+                          color: Colors.black,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
                     ),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        elevation: 0.0,
-                        padding: EdgeInsets.zero,
-                        backgroundColor: CustomColor.brightRed,
-                        textStyle: GoogleFonts.nanumGothic(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)
-                      ),
+                          elevation: 0.0,
+                          padding: EdgeInsets.zero,
+                          backgroundColor: CustomColor.brightRed,
+                          textStyle: GoogleFonts.nanumGothic(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold)),
                       child: Text(
                         '이어서',
                         style: GoogleFonts.nanumGothic(color: Colors.white),
@@ -142,9 +144,10 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                       Text(
+                      Text(
                         'Quiz',
-                        style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                        style: GoogleFonts.nanumGothic(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 5,
@@ -161,16 +164,22 @@ class _HomePageState extends State<HomePage> {
                           progressColor: CustomColor.brightRed,
                           backgroundColor: Colors.white,
                           circularStrokeCap: CircularStrokeCap.round,
-                          center:  Column(
+                          center: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 '37/50',
-                                style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12),
+                                style: GoogleFonts.nanumGothic(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12),
                               ),
                               Text(
                                 'Quiz played',
-                                style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 5),
+                                style: GoogleFonts.nanumGothic(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 5),
                               ),
                             ],
                           ),
@@ -189,9 +198,10 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                       Text(
+                      Text(
                         'Point',
-                        style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                        style: GoogleFonts.nanumGothic(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 5,
@@ -208,7 +218,8 @@ class _HomePageState extends State<HomePage> {
                           duration: const Duration(milliseconds: 1000),
                           value: _value,
                           suffix: 'P',
-                          textStyle: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                          textStyle: GoogleFonts.nanumGothic(
+                              color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -221,26 +232,29 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.white,
                     ),
                   ),
-                   Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'D+DAY',
-                        style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                        style: GoogleFonts.nanumGothic(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       Stack(
                         alignment: AlignmentDirectional.center,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.calendar_today,
                             color: Colors.white,
                             size: 55,
                           ),
                           Transform.translate(
-                            offset: Offset(0,4),
+                            offset: const Offset(0, 4),
                             child: Text(
                               '7',
-                              style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                              style: GoogleFonts.nanumGothic(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -260,9 +274,9 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
-                  // if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  //   return Container();
-                  // }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Container();
+                  }
                   var lectures = snapshot.data!.docs;
 
                   return GridView.builder(
@@ -297,18 +311,19 @@ class _HomePageState extends State<HomePage> {
                           clipBehavior: Clip.antiAlias,
                           child: InkWell(
                             onTap: () async {
-                              String lectureName = document['documentID'];
+                              String docID = document['documentID'];
                               String name = document['name'];
-                              // Check if the lectureName is already in the lectureList
+                              // Check if the docID is already in the lectureList
                               if (userUID != null) {
                                 try {
                                   var userDoc = await FirebaseFirestore.instance
                                       .collection('user')
                                       .doc(userUID)
                                       .get();
-                                  var lectureList = userDoc['lectureList'] ?? [];
+                                  var lectureList =
+                                      userDoc['lectureList'] ?? [];
 
-                                  if (lectureList.contains(lectureName)) {
+                                  if (lectureList.contains(docID)) {
                                     // The lecture is already in the list, show an alert
                                     showDialog(
                                       context: context,
@@ -317,11 +332,12 @@ class _HomePageState extends State<HomePage> {
                                         backgroundColor: Colors.white,
                                         elevation: 0,
                                         title: const Text('알림'),
-                                        content: Text(
-                                            '$name 과목은 이미 수강 목록에 있습니다.'),
+                                        content:
+                                            Text('$name 과목은 이미 수강 목록에 있습니다.'),
                                         actions: <Widget>[
                                           TextButton(
-                                            onPressed: () => Navigator.pop(context),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
                                             child: const Text('확인'),
                                           ),
                                         ],
@@ -334,7 +350,8 @@ class _HomePageState extends State<HomePage> {
                                   // ignore: use_build_context_synchronously
                                   var result = await showDialog<String>(
                                     context: context,
-                                    builder: (BuildContext context) => AlertDialog(
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
                                       backgroundColor: Colors.white,
                                       elevation: 0.0,
                                       title: const Text('강의 수강하기'),
@@ -362,7 +379,7 @@ class _HomePageState extends State<HomePage> {
                                         .doc(userUID)
                                         .update({
                                       'lectureList':
-                                          FieldValue.arrayUnion([lectureName])
+                                          FieldValue.arrayUnion([docID])
                                     });
 
                                     // You can add additional logic or UI updates here
@@ -381,7 +398,7 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LoginPage()),
+                                      builder: (context) => const LoginPage()),
                                 );
                               }
                             },
