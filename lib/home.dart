@@ -1,14 +1,14 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:teamwork/login.dart';
+import 'package:teamwork/color/color.dart';
 import 'package:teamwork/home_func/search.dart';
-import 'color/color.dart';
+import 'package:teamwork/login.dart';
+
 import 'dart:async';
 
 class HomePage extends StatefulWidget {
@@ -32,6 +32,8 @@ class _HomePageState extends State<HomePage> {
         userUID = user.uid;
         userName = user.displayName;
       });
+    } else {
+      print("Error: User is null");
     }
   }
 
@@ -67,8 +69,11 @@ class _HomePageState extends State<HomePage> {
               height: 50,
             ),
             Text(
-              '안녕하세요 ${userName}님',
-              style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
+              '안녕하세요 $userName님',
+              style: GoogleFonts.nanumGothic(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
             ),
             const SizedBox(
               height: 20,
@@ -97,16 +102,21 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       // '$lectureList[] 퀴즈', // 작동할 수 있게 user의 lectureList 항목 개별로 가져올 수 있도록
                       'Computer Network 퀴즈',
-                      style: GoogleFonts.nanumGothic(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),
+                      style: GoogleFonts.nanumGothic(
+                          color: Colors.black,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
                     ),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        elevation: 0.0,
-                        padding: EdgeInsets.zero,
-                        backgroundColor: CustomColor.brightRed,
-                        textStyle: GoogleFonts.nanumGothic(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold)
-                      ),
+                          elevation: 0.0,
+                          padding: EdgeInsets.zero,
+                          backgroundColor: CustomColor.brightRed,
+                          textStyle: GoogleFonts.nanumGothic(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold)),
                       child: Text(
                         '이어서',
                         style: GoogleFonts.nanumGothic(color: Colors.white),
@@ -134,9 +144,10 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                       Text(
+                      Text(
                         'Quiz',
-                        style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                        style: GoogleFonts.nanumGothic(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 5,
@@ -153,16 +164,22 @@ class _HomePageState extends State<HomePage> {
                           progressColor: CustomColor.brightRed,
                           backgroundColor: Colors.white,
                           circularStrokeCap: CircularStrokeCap.round,
-                          center:  Column(
+                          center: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 '37/50',
-                                style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12),
+                                style: GoogleFonts.nanumGothic(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12),
                               ),
                               Text(
                                 'Quiz played',
-                                style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 5),
+                                style: GoogleFonts.nanumGothic(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 5),
                               ),
                             ],
                           ),
@@ -181,9 +198,10 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                       Text(
+                      Text(
                         'Point',
-                        style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                        style: GoogleFonts.nanumGothic(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 5,
@@ -200,7 +218,8 @@ class _HomePageState extends State<HomePage> {
                           duration: const Duration(milliseconds: 1000),
                           value: _value,
                           suffix: 'P',
-                          textStyle: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                          textStyle: GoogleFonts.nanumGothic(
+                              color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -213,26 +232,29 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.white,
                     ),
                   ),
-                   Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'D+DAY',
-                        style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                        style: GoogleFonts.nanumGothic(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       Stack(
                         alignment: AlignmentDirectional.center,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.calendar_today,
                             color: Colors.white,
                             size: 55,
                           ),
                           Transform.translate(
-                            offset: Offset(0,4),
+                            offset: const Offset(0, 4),
                             child: Text(
                               '7',
-                              style: GoogleFonts.nanumGothic(color: Colors.white,fontWeight: FontWeight.bold),
+                              style: GoogleFonts.nanumGothic(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -249,17 +271,12 @@ class _HomePageState extends State<HomePage> {
                     .collection('lecture')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  // 이 부분에서 stateful+hasData을 사용하면서 데이터를 계속 거의 무한으로 가져오게 됨 -> 에러 원인
-                  // if (!snapshot.hasData) {
-                  //   return const CircularProgressIndicator(); // Loading indicator
-                  // }
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
-                  // db에서 다시 에러나서 hasData일단 주석 처리
-                  // if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  //   return Container();
-                  // }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Container();
+                  }
                   var lectures = snapshot.data!.docs;
 
                   return GridView.builder(
@@ -270,7 +287,7 @@ class _HomePageState extends State<HomePage> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 15.0 / 10.0,
+                      childAspectRatio: 15.0 / 11.0,
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
                     ),
@@ -278,6 +295,7 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (BuildContext context, int index) {
                       var document = lectures[index];
                       var lectureName = document['name'];
+                      var icon = document['iconUrl'];
                       return SizedBox(
                         height: 300,
                         child: Card(
@@ -302,7 +320,8 @@ class _HomePageState extends State<HomePage> {
                                       .collection('user')
                                       .doc(userUID)
                                       .get();
-                                  var lectureList = userDoc['lectureList'] ?? [];
+                                  var lectureList =
+                                      userDoc['lectureList'] ?? [];
 
                                   if (lectureList.contains(lectureName)) {
                                     // The lecture is already in the list, show an alert
@@ -313,11 +332,12 @@ class _HomePageState extends State<HomePage> {
                                         backgroundColor: Colors.white,
                                         elevation: 0,
                                         title: const Text('알림'),
-                                        content: Text(
-                                            '$name 과목은 이미 수강 목록에 있습니다.'),
+                                        content:
+                                            Text('$name 과목은 이미 수강 목록에 있습니다.'),
                                         actions: <Widget>[
                                           TextButton(
-                                            onPressed: () => Navigator.pop(context),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
                                             child: const Text('확인'),
                                           ),
                                         ],
@@ -330,7 +350,8 @@ class _HomePageState extends State<HomePage> {
                                   // ignore: use_build_context_synchronously
                                   var result = await showDialog<String>(
                                     context: context,
-                                    builder: (BuildContext context) => AlertDialog(
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
                                       backgroundColor: Colors.white,
                                       elevation: 0.0,
                                       title: const Text('강의 수강하기'),
@@ -377,29 +398,39 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LoginPage()),
+                                      builder: (context) => const LoginPage()),
                                 );
                               }
                             },
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    16.0,
-                                    12.0,
-                                    16.0,
-                                    10,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 7,
                                   ),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
                                       Text(
                                         lectureName,
-                                        style: GoogleFonts.nanumGothic(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                        style: GoogleFonts.nanumGothic(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
+                                        softWrap: true,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: SvgPicture.network(
+                                          icon,
+                                          width: 50,
+                                          height: 50,
+                                        ),
                                       ),
                                     ],
                                   ),

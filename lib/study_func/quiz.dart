@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:teamwork/color/color.dart';
 
-import 'color/color.dart';
+
 
 class QuizPage extends StatefulWidget {
   final String lectureId;
@@ -25,20 +27,23 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Future<void> fetchDataFromFirestore() async {
-    try {
-      var snapshot = await FirebaseFirestore.instance
-          .collection('lecture')
-          .doc(widget.lectureId)
-          .get();
+    //quizData가 비어있을때만
+    if (quizData.isEmpty) {
+      try {
+        var snapshot = await FirebaseFirestore.instance
+            .collection('lecture')
+            .doc(widget.lectureId)
+            .get();
 
-      List<Map<dynamic, dynamic>> fetchedQuizData =
-      List<Map<dynamic, dynamic>>.from(snapshot['questions']);
+        List<Map<dynamic, dynamic>> fetchedQuizData =
+        List<Map<dynamic, dynamic>>.from(snapshot['questions']);
 
-      setState(() {
-        quizData = fetchedQuizData;
-      });
-    } catch (e) {
-      print('Error fetching data from Firestore: $e');
+        setState(() {
+          quizData = fetchedQuizData;
+        });
+      } catch (e) {
+        print('Error fetching data from Firestore: $e');
+      }
     }
   }
 
@@ -116,6 +121,7 @@ class _QuizPageState extends State<QuizPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColor.primary,
+        leading: IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_outline_rounded,size: 35,color: CustomColor.brightRed,)),
         title: Text(
           '${currentQuestionIndex + 1} of ${quizData.length}',
           style: GoogleFonts.nanumGothic(
@@ -149,6 +155,20 @@ class _QuizPageState extends State<QuizPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            LinearPercentIndicator(
+              alignment: MainAxisAlignment.center,
+              animation: true,
+              barRadius: Radius.circular(20),
+              padding: EdgeInsets.zero,
+              percent: quizData.isNotEmpty
+                  ? (currentQuestionIndex + 1) / quizData.length.toDouble()
+                  : 0.0, // 수정된 부분
+              lineHeight: 10,
+              backgroundColor: Colors.white,
+              progressColor: CustomColor.brightRed,
+              width: 340,
+            ),
+            SizedBox(height: 10,),
             Container(
               width: 400,
               height: 600,
@@ -160,7 +180,6 @@ class _QuizPageState extends State<QuizPage> {
                 child: Column(
                   children: [
                     SizedBox(height: 15,),
-
                     // 문제 지문
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
