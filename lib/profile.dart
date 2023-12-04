@@ -82,8 +82,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-
-      // body-center
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -135,8 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                             ],
                           ),
-                          // database-user docs에 major 필드 추가 필요
-                          // users->major-> CS / Laws / Math 등...
+
                           Row(
                             children: [
                               Text("전공 : ",
@@ -148,7 +145,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
                           SizedBox(height: 20,),
 
-                          // 라인 차트 예시 ->line_chart.dart 페이지
                           LineChartSample2(),
                         ],
                       ),
