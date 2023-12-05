@@ -19,10 +19,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   num _value = 0;
   num point = 200;
   String? userUID;
   String? userName;
+  Stream<QuerySnapshot>? _lectureStream;
 
   void fetchUser() {
     User? user = FirebaseAuth.instance.currentUser;
@@ -42,6 +44,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     fetchUser();
     _startAutoAnimation();
+    _lectureStream = _firestore.collection('lecture').snapshots();
   }
 
   void _startAutoAnimation() {
@@ -267,13 +270,12 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('lecture')
-                    .snapshots(),
-                builder: (context, snapshot) {
+                stream: _lectureStream,
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
+
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return Container();
                   }
@@ -281,9 +283,7 @@ class _HomePageState extends State<HomePage> {
 
                   return GridView.builder(
                     shrinkWrap: true,
-                    // Set shrinkWrap to true
                     physics: const NeverScrollableScrollPhysics(),
-                    // Set physics to NeverScrollableScrollPhysics
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -316,7 +316,7 @@ class _HomePageState extends State<HomePage> {
                               // Check if the docID is already in the lectureList
                               if (userUID != null) {
                                 try {
-                                  var userDoc = await FirebaseFirestore.instance
+                                  var userDoc = await _firestore
                                       .collection('user')
                                       .doc(userUID)
                                       .get();

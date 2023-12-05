@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:teamwork/color/color.dart';
@@ -76,36 +77,22 @@ class _QuizPageState extends State<QuizPage> {
     // Check if the selected choice index is equal to the correct answer index
     bool isCorrect = selectedChoiceIndex == correctAnswerIndex;
 
-    // Show an alert based on whether the answer is correct
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(isCorrect ? 'Correct!' : 'Incorrect!'),
-          content: Text(
-            isCorrect
-                ? 'Congratulations! You chose the correct answer.'
-                : 'Oops! You chose the incorrect answer.',
-          ),
-          actions: [
-            isCorrect
-                ? TextButton(
-              onPressed: () {
-                // Move to the next question or handle quiz completion
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            )
-                : TextButton(
-              onPressed: () {
-                // Move to the next question or handle quiz completion
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
+    isCorrect ? Fluttertoast.showToast(
+        msg: "정답입니다!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.lightBlueAccent,
+        textColor: Colors.black,
+        fontSize: 16.0
+    ) : Fluttertoast.showToast(
+        msg: "오답입니다!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
     );
     return isCorrect ? true : false;
   }
