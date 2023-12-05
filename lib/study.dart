@@ -172,6 +172,7 @@ class StudyPage extends StatefulWidget {
 
 class _StudyPageState extends State<StudyPage> {
   String? userUID;
+  Stream<DocumentSnapshot>? _userLectureStream;
 
   @override
   void initState() {
@@ -184,6 +185,7 @@ class _StudyPageState extends State<StudyPage> {
     if (user != null) {
       setState(() {
         userUID = user.uid;
+        _userLectureStream = FirebaseFirestore.instance.collection('user').doc(userUID).snapshots();
       });
     }
   }
@@ -205,7 +207,7 @@ class _StudyPageState extends State<StudyPage> {
         ),
       ),
       body: StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance.collection('user').doc(userUID).snapshots(),
+        stream: _userLectureStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -213,9 +215,6 @@ class _StudyPageState extends State<StudyPage> {
 
           if (!snapshot.hasData || !snapshot.data!.exists) {
             return Container();
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
           }
 
           var userDocument = snapshot.data!;
