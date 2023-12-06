@@ -4,6 +4,7 @@ import 'package:teamwork/model/lecture.dart';
 import 'package:teamwork/nav.dart';
 import 'package:teamwork/splash.dart';
 import 'package:teamwork/study.dart';
+import 'package:teamwork/study_func/addquiz.dart';
 
 
 class StudyJoyApp extends StatefulWidget {
@@ -25,6 +26,7 @@ class _StudyJoyAppState extends State<StudyJoyApp> {
         '/login' : (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => BottomNavigation(),
         '/study':(BuildContext context) => StudyPage(),
+        '/addquiz': (BuildContext context) => AddQuestionPage(),
       },
     );
   }

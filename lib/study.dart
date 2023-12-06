@@ -193,6 +193,12 @@ class _StudyPageState extends State<StudyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: IconButton(
+        icon: Icon(Icons.add_circle),
+        onPressed: () {
+          Navigator.pushNamed(context, '/addquiz');
+        },
+      ),
       appBar: AppBar(
         backgroundColor: CustomColor.primary,
         centerTitle: true,

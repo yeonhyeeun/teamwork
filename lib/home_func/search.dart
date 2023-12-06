@@ -19,6 +19,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       margin: EdgeInsets.symmetric(horizontal: 20),
       height: 55,
       child: TextField(
+        onTapOutside: (event) => //다른 화면 누를 때 키보드 down
+        FocusManager.instance.primaryFocus?.unfocus(),
         controller: _textEditingController,
         decoration: InputDecoration(
           hintText: '이번학기 내 전공 과목 검색하기',
