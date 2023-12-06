@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:teamwork/color/color.dart';
@@ -19,11 +21,22 @@ class _QuizPageState extends State<QuizPage> {
   late List<Map<dynamic, dynamic>> quizData = [];
   int currentQuestionIndex = 0;
   int _selectedChoiceIndex = -1;
+  String? userUID;
 
   @override
   void initState() {
     super.initState();
     fetchDataFromFirestore();
+    fetchUser();
+  }
+
+  void fetchUser(){
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        userUID = user.uid;
+      });
+    }
   }
 
   Future<void> fetchDataFromFirestore() async {
@@ -47,68 +60,65 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
 
-  void onNextQuestionPressed() {
+  Future<void> onNextQuestionPressed() async {
     if (currentQuestionIndex < quizData.length - 1) {
-      setState(() {
-        currentQuestionIndex++;
-        _selectedChoiceIndex = -1;
-      });
+      bool isCorrect = await showAnswer(_selectedChoiceIndex);
+
+      if (isCorrect) {
+        setState(() {
+          currentQuestionIndex++;
+          _selectedChoiceIndex = -1;
+        });
+      }
     } else {
       // Handle quiz completion or navigate to the next screen.
-      Navigator.pushNamed(context, '/home');
-    }
-  }
-  void onPreviousQuestionPressed() {
-    if (currentQuestionIndex > 0) {
-      setState(() {
-        currentQuestionIndex--;
-      });
-    } else {
-
+      bool isCorrect = await showAnswer(_selectedChoiceIndex);
+      if (isCorrect) {
+        Navigator.pushNamed(context, '/home');
+      }
     }
   }
 
-  bool showAnswer(int selectedChoiceIndex) {
-    // Get the correct answer index for the current question
-    int correctAnswerIndex =
-    quizData[currentQuestionIndex]['correctAnswerIndex'];
 
-    // Check if the selected choice index is equal to the correct answer index
+  Future<bool> showAnswer(int selectedChoiceIndex) async {
+    int correctAnswerIndex = quizData[currentQuestionIndex]['correctAnswerIndex'];
+
     bool isCorrect = selectedChoiceIndex == correctAnswerIndex;
 
-    // Show an alert based on whether the answer is correct
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(isCorrect ? 'Correct!' : 'Incorrect!'),
-          content: Text(
-            isCorrect
-                ? 'Congratulations! You chose the correct answer.'
-                : 'Oops! You chose the incorrect answer.',
-          ),
-          actions: [
-            isCorrect
-                ? TextButton(
-              onPressed: () {
-                // Move to the next question or handle quiz completion
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            )
-                : TextButton(
-              onPressed: () {
-                // Move to the next question or handle quiz completion
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-    return isCorrect ? true : false;
+    if (isCorrect) {
+      Fluttertoast.showToast(
+        msg: "정답입니다!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.lightBlueAccent,
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      await FirebaseFirestore.instance
+          .collection('lecture')
+          .doc(widget.lectureId)
+          .collection('quiz')
+          .doc(userUID)
+          .update({
+        'number': FieldValue.increment(1),
+      });
+
+    } else {
+      Fluttertoast.showToast(
+        msg: "오답입니다!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+
+    return isCorrect;
   }
+
   void onAnswerSelected(int selectedChoiceIndex) {
     setState(() {
       _selectedChoiceIndex = selectedChoiceIndex;
@@ -121,7 +131,7 @@ class _QuizPageState extends State<QuizPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColor.primary,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_outline_rounded,size: 35,color: CustomColor.brightRed,)),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_outline_rounded,color: CustomColor.brightRed,size: 35,))],
         title: Text(
           '${currentQuestionIndex + 1} of ${quizData.length}',
           style: GoogleFonts.nanumGothic(
@@ -132,22 +142,6 @@ class _QuizPageState extends State<QuizPage> {
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
-        actions: [
-          ElevatedButton(
-            onPressed: onNextQuestionPressed,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xff001C9C),
-            ),
-            child: Text(
-              '넘기기',
-              style: GoogleFonts.nanumGothic(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          )
-        ],
       ),
       backgroundColor: CustomColor.primary,
       body: Center(
@@ -182,7 +176,7 @@ class _QuizPageState extends State<QuizPage> {
                     SizedBox(height: 15,),
                     // 문제 지문
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 33.0,vertical: 10),
                       child: Text(
                         quizData.isNotEmpty
                             ? quizData[currentQuestionIndex]['questionText']
@@ -229,58 +223,29 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                     )
                         : []),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0.0,
-                            backgroundColor: Colors.white,
-                            textStyle: GoogleFonts.nanumGothic(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onPressed: onPreviousQuestionPressed
-                          ,
-                          child: Text(
-                            '이전',
-                            style: GoogleFonts.nanumGothic(
-                              color: Colors.black,
-                            ),
-                          ),
+                    SizedBox(height: 20,),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(120,50),
+                        elevation: 0.0,
+                        backgroundColor: CustomColor.brightRed,
+                        textStyle: GoogleFonts.nanumGothic(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0.0,
-                            backgroundColor: CustomColor.brightRed,
-                            textStyle: GoogleFonts.nanumGothic(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onPressed: () {
-                            if(showAnswer(_selectedChoiceIndex) == true) {
-                              onNextQuestionPressed();
-                            }
-                            else {
-                            }
-                          },
-                          child: Text(
-                            '다음',
-                            style: GoogleFonts.nanumGothic(
-                              color: Colors.white,
-                            ),
-                          ),
+                      ),
+                      onPressed: () async {
+                        await onNextQuestionPressed();
+                      },
+                      child: Text(
+                        '다음',
+                        style: GoogleFonts.nanumGothic(
+                          color: Colors.white,
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),

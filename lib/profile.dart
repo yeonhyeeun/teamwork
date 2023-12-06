@@ -46,8 +46,6 @@ class _ProfilePageState extends State<ProfilePage> {
         userEmail = user.email;
         userPhoto = user.photoURL;
         userName = user.displayName;
-        // 전공 추가
-        // userMajor = user.major;
       });
     }
   }

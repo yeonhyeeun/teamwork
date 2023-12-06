@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teamwork/home.dart';
 import 'package:teamwork/profile.dart';
 import 'package:teamwork/study.dart';
+import 'package:teamwork/study_func/addquiz.dart';
 
 import 'color/color.dart';
 
@@ -59,7 +60,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.sticky_note_2_outlined),
-
             label: 'Study',
           ),
           BottomNavigationBarItem(
