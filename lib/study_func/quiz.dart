@@ -79,15 +79,6 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
 
-  void onPreviousQuestionPressed() {
-    if (currentQuestionIndex > 0) {
-      setState(() {
-        currentQuestionIndex--;
-      });
-    } else {
-
-    }
-  }
 
   Future<bool> showAnswer(int selectedChoiceIndex) async {
     int correctAnswerIndex = quizData[currentQuestionIndex]['correctAnswerIndex'];
@@ -140,7 +131,7 @@ class _QuizPageState extends State<QuizPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColor.primary,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_outline_rounded,size: 35,color: CustomColor.brightRed,)),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_outline_rounded,color: CustomColor.brightRed,size: 35,))],
         title: Text(
           '${currentQuestionIndex + 1} of ${quizData.length}',
           style: GoogleFonts.nanumGothic(
@@ -151,22 +142,6 @@ class _QuizPageState extends State<QuizPage> {
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
-        actions: [
-          ElevatedButton(
-            onPressed: onNextQuestionPressed,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xff001C9C),
-            ),
-            child: Text(
-              '넘기기',
-              style: GoogleFonts.nanumGothic(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          )
-        ],
       ),
       backgroundColor: CustomColor.primary,
       body: Center(
@@ -201,7 +176,7 @@ class _QuizPageState extends State<QuizPage> {
                     SizedBox(height: 15,),
                     // 문제 지문
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 33.0,vertical: 10),
                       child: Text(
                         quizData.isNotEmpty
                             ? quizData[currentQuestionIndex]['questionText']
@@ -248,54 +223,29 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                     )
                         : []),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0.0,
-                            backgroundColor: Colors.white,
-                            textStyle: GoogleFonts.nanumGothic(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onPressed: onPreviousQuestionPressed
-                          ,
-                          child: Text(
-                            '이전',
-                            style: GoogleFonts.nanumGothic(
-                              color: Colors.black,
-                            ),
-                          ),
+                    SizedBox(height: 20,),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(120,50),
+                        elevation: 0.0,
+                        backgroundColor: CustomColor.brightRed,
+                        textStyle: GoogleFonts.nanumGothic(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0.0,
-                            backgroundColor: CustomColor.brightRed,
-                            textStyle: GoogleFonts.nanumGothic(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onPressed: () async {
-                            await onNextQuestionPressed();
-                          },
-                          child: Text(
-                            '다음',
-                            style: GoogleFonts.nanumGothic(
-                              color: Colors.white,
-                            ),
-                          ),
+                      ),
+                      onPressed: () async {
+                        await onNextQuestionPressed();
+                      },
+                      child: Text(
+                        '다음',
+                        style: GoogleFonts.nanumGothic(
+                          color: Colors.white,
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
