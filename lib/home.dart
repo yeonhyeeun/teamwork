@@ -25,6 +25,18 @@ class _HomePageState extends State<HomePage> {
   String? userUID;
   String? userName;
   Stream<QuerySnapshot>? _lectureStream;
+  List<DocumentSnapshot> allLectures = [];
+  List<DocumentSnapshot> filteredLectures = [];
+
+  Future<void> fetchLectures() async {
+    final QuerySnapshot lectureSnapshot =
+    await _firestore.collection('lecture').get();
+
+    setState(() {
+      allLectures = lectureSnapshot.docs;
+      filteredLectures = allLectures;
+    });
+  }
 
   void fetchUser() {
     User? user = FirebaseAuth.instance.currentUser;
@@ -45,6 +57,7 @@ class _HomePageState extends State<HomePage> {
     fetchUser();
     _startAutoAnimation();
     _lectureStream = _firestore.collection('lecture').snapshots();
+    fetchLectures();
   }
 
   void _startAutoAnimation() {
@@ -64,8 +77,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-
-        // Set physics to AlwaysScrollableScrollPhysics
         child: Column(
           children: <Widget>[
             const SizedBox(
@@ -81,7 +92,16 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 20,
             ),
-            SearchBarWidget(),
+            SearchBarWidget(
+              onSearch: (query) {
+                setState(() {
+                  filteredLectures = allLectures
+                      .where((lecture) =>
+                      lecture['name'].toLowerCase().contains(query.toLowerCase()))
+                      .toList();
+                });
+              },
+            ),
             const SizedBox(
               height: 14,
             ),
@@ -280,6 +300,7 @@ class _HomePageState extends State<HomePage> {
                     return Container();
                   }
                   var lectures = snapshot.data!.docs;
+                  allLectures = lectures;
 
                   return GridView.builder(
                     shrinkWrap: true,
@@ -291,9 +312,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
                     ),
-                    itemCount: lectures.length,
+                    itemCount: filteredLectures.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var document = lectures[index];
+                      var document = filteredLectures[index];
                       var lectureName = document['name'];
                       var icon = document['iconUrl'];
                       return SizedBox(
@@ -313,7 +334,6 @@ class _HomePageState extends State<HomePage> {
                             onTap: () async {
                               String docID = document['documentID'];
                               String name = document['name'];
-                              // Check if the docID is already in the lectureList
                               if (userUID != null) {
                                 try {
                                   var userDoc = await _firestore
@@ -324,7 +344,6 @@ class _HomePageState extends State<HomePage> {
                                       userDoc['lectureList'] ?? [];
 
                                   if (lectureList.contains(docID)) {
-                                    // The lecture is already in the list, show an alert
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) =>

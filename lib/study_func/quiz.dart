@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,11 +21,22 @@ class _QuizPageState extends State<QuizPage> {
   late List<Map<dynamic, dynamic>> quizData = [];
   int currentQuestionIndex = 0;
   int _selectedChoiceIndex = -1;
+  String? userUID;
 
   @override
   void initState() {
     super.initState();
     fetchDataFromFirestore();
+    fetchUser();
+  }
+
+  void fetchUser(){
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        userUID = user.uid;
+      });
+    }
   }
 
   Future<void> fetchDataFromFirestore() async {
@@ -48,17 +60,25 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
 
-  void onNextQuestionPressed() {
+  Future<void> onNextQuestionPressed() async {
     if (currentQuestionIndex < quizData.length - 1) {
-      setState(() {
-        currentQuestionIndex++;
-        _selectedChoiceIndex = -1;
-      });
+      bool isCorrect = await showAnswer(_selectedChoiceIndex);
+
+      if (isCorrect) {
+        setState(() {
+          currentQuestionIndex++;
+          _selectedChoiceIndex = -1;
+        });
+      }
     } else {
       // Handle quiz completion or navigate to the next screen.
-      Navigator.pushNamed(context, '/home');
+      bool isCorrect = await showAnswer(_selectedChoiceIndex);
+      if (isCorrect) {
+        Navigator.pushNamed(context, '/home');
+      }
     }
   }
+
   void onPreviousQuestionPressed() {
     if (currentQuestionIndex > 0) {
       setState(() {
@@ -69,33 +89,45 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
 
-  bool showAnswer(int selectedChoiceIndex) {
-    // Get the correct answer index for the current question
-    int correctAnswerIndex =
-    quizData[currentQuestionIndex]['correctAnswerIndex'];
+  Future<bool> showAnswer(int selectedChoiceIndex) async {
+    int correctAnswerIndex = quizData[currentQuestionIndex]['correctAnswerIndex'];
 
-    // Check if the selected choice index is equal to the correct answer index
     bool isCorrect = selectedChoiceIndex == correctAnswerIndex;
 
-    isCorrect ? Fluttertoast.showToast(
+    if (isCorrect) {
+      Fluttertoast.showToast(
         msg: "정답입니다!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.lightBlueAccent,
         textColor: Colors.black,
-        fontSize: 16.0
-    ) : Fluttertoast.showToast(
+        fontSize: 16.0,
+      );
+      await FirebaseFirestore.instance
+          .collection('lecture')
+          .doc(widget.lectureId)
+          .collection('quiz')
+          .doc(userUID)
+          .update({
+        'number': FieldValue.increment(1),
+      });
+
+    } else {
+      Fluttertoast.showToast(
         msg: "오답입니다!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.red,
         textColor: Colors.white,
-        fontSize: 16.0
-    );
-    return isCorrect ? true : false;
+        fontSize: 16.0,
+      );
+    }
+
+    return isCorrect;
   }
+
   void onAnswerSelected(int selectedChoiceIndex) {
     setState(() {
       _selectedChoiceIndex = selectedChoiceIndex;
@@ -253,12 +285,8 @@ class _QuizPageState extends State<QuizPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: () {
-                            if(showAnswer(_selectedChoiceIndex) == true) {
-                              onNextQuestionPressed();
-                            }
-                            else {
-                            }
+                          onPressed: () async {
+                            await onNextQuestionPressed();
                           },
                           child: Text(
                             '다음',
