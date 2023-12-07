@@ -21,7 +21,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   num _value = 0;
-  num point = 200;
+  num point = 0;
+  num quiz = 0;
   String? userUID;
   String? userName;
   Stream<QuerySnapshot>? _lectureStream;
@@ -38,6 +39,8 @@ class _HomePageState extends State<HomePage> {
       filteredLectures = allLectures;
     });
   }
+
+
 
   void fetchUser() {
     User? user = FirebaseAuth.instance.currentUser;
@@ -56,10 +59,8 @@ class _HomePageState extends State<HomePage> {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      // Firebase 서버 시간 가져오기
       String userId = user.uid;
 
-      // 이전 접속 날짜 가져오기
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('event')
           .doc(userId)
@@ -83,9 +84,14 @@ class _HomePageState extends State<HomePage> {
               .doc(userId)
               .update({'day' : 1});
         }
-        userDay = userDoc['day'] ?? 0;
       }
+      setState(() {
+        userDay = userDoc['day'] ?? 0;
+        point = userDoc['point'];
+        quiz = userDoc['quiz'];
+      });
     }
+
   }
 
   @override
@@ -221,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                           animationDuration: 1000,
                           radius: 30,
                           lineWidth: 8,
-                          percent: 37 / 100,
+                          percent: quiz / 100,
                           progressColor: CustomColor.brightRed,
                           backgroundColor: Colors.white,
                           circularStrokeCap: CircularStrokeCap.round,
@@ -229,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '37/50',
+                                '$quiz/100',
                                 style: GoogleFonts.nanumGothic(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
