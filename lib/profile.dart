@@ -5,8 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:teamwork/color/color.dart';
 
-import 'line_chart.dart';
-
 class ProfilePage extends StatefulWidget {
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -143,7 +141,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
                           SizedBox(height: 20,),
 
-                          LineChartSample2(),
                         ],
                       ),
                     ),

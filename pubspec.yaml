@@ -22,12 +22,10 @@ dependencies:
   provider: ^6.1.1
   firebase_ui_auth: ^1.10.0
   google_sign_in: ^6.1.6
-  fl_chart: ^0.64.0
   firebase_core_web: ^2.8.1
   google_fonts: ^6.1.0
   flutter_svg: ^2.0.9
   loading_animation_widget: ^1.2.0+4
-  rive: ^0.12.3
   fluttertoast: ^8.2.4
   google_ml_kit: ^0.16.3
   image_picker: ^1.0.4
