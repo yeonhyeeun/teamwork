@@ -91,8 +91,8 @@ class _StudyPageState extends State<StudyPage> {
                 '${userDocument['name']}의 스터디룸',
                 style: GoogleFonts.nanumGothic(
                   color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 20,
                 ),
               ),
               for (var lectureId in lectureList)
@@ -143,9 +143,8 @@ class _StudyPageState extends State<StudyPage> {
                                     alignment : Alignment.center,
                                     child: Text(
                                       lectureName,
-                                      style: GoogleFonts.nanumGothic(
+                                      style: GoogleFonts.russoOne(
                                         color: Colors.black,
-                                        fontWeight: FontWeight.w800,
                                         fontSize: 23,
                                       ),
                                     ),

@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   Stream<QuerySnapshot>? _lectureStream;
   List<DocumentSnapshot> allLectures = [];
   List<DocumentSnapshot> filteredLectures = [];
+  int userDay = 0;
 
   Future<void> fetchLectures() async {
     final QuerySnapshot lectureSnapshot =
@@ -51,6 +52,42 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void recordUserLoginDate() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Firebase 서버 시간 가져오기
+      String userId = user.uid;
+
+      // 이전 접속 날짜 가져오기
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('event')
+          .doc(userId)
+          .get();
+
+      Timestamp? lastLoginTimestamp = userDoc['lastLoginDate'] as Timestamp?;
+
+      if (lastLoginTimestamp != null) {
+        DateTime lastLoginDate = lastLoginTimestamp.toDate();
+
+        DateTime currentServerTime = DateTime.now();
+
+        if (currentServerTime.difference(lastLoginDate).inDays == 1) {
+          await FirebaseFirestore.instance
+              .collection('event')
+              .doc(userId)
+              .update({'day' : FieldValue.increment(1)});
+        } else {
+          await FirebaseFirestore.instance
+              .collection('event')
+              .doc(userId)
+              .update({'day' : 1});
+        }
+        userDay = userDoc['day'] ?? 0;
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +95,7 @@ class _HomePageState extends State<HomePage> {
     _startAutoAnimation();
     _lectureStream = _firestore.collection('lecture').snapshots();
     fetchLectures();
+    recordUserLoginDate();
   }
 
   void _startAutoAnimation() {
@@ -169,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         'Quiz',
-                        style: GoogleFonts.nanumGothic(
+                        style: GoogleFonts.russoOne(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
@@ -183,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                           animationDuration: 1000,
                           radius: 30,
                           lineWidth: 8,
-                          percent: 37 / 50,
+                          percent: 37 / 100,
                           progressColor: CustomColor.brightRed,
                           backgroundColor: Colors.white,
                           circularStrokeCap: CircularStrokeCap.round,
@@ -223,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         'Point',
-                        style: GoogleFonts.nanumGothic(
+                        style: GoogleFonts.russoOne(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
@@ -260,7 +298,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         'D+DAY',
-                        style: GoogleFonts.nanumGothic(
+                        style: GoogleFonts.russoOne(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       Stack(
@@ -274,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                           Transform.translate(
                             offset: const Offset(0, 4),
                             child: Text(
-                              '7',
+                              '$userDay',
                               style: GoogleFonts.nanumGothic(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -434,9 +472,8 @@ class _HomePageState extends State<HomePage> {
                                     children: <Widget>[
                                       Text(
                                         lectureName,
-                                        style: GoogleFonts.nanumGothic(
+                                        style: GoogleFonts.russoOne(
                                           color: Colors.black,
-                                          fontWeight: FontWeight.bold,
                                           fontSize: 18,
                                         ),
                                         overflow: TextOverflow.ellipsis,

@@ -19,7 +19,7 @@ class _SplashState extends State<SplashPage> {
   }
 
   Future<void> _navigateToMainScreen() async {
-    await Future.delayed(Duration(seconds: 3)); // Adjust the duration as needed
+    await Future.delayed(Duration(seconds: 3)); // Adjus the duration as needed
     Navigator.pushNamed(context, '/login');
   }
 
