@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import 'color/color.dart';
+import '../color/color.dart';
+
+
 
 class QuizPage extends StatefulWidget {
   final String lectureId;
