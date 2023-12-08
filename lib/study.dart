@@ -122,6 +122,44 @@ class _StudyPageState extends State<StudyPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: InkWell(
+                                onLongPress: () async {
+                                  bool confirmDelete = await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        elevation: 0.0,
+                                        title: Text("강의 삭제"),
+                                        content: Text("수강 목록에서 삭제하시겠습니까?"),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(false); // User doesn't want to delete
+                                            },
+                                            child: Text("취소",style:  GoogleFonts.nanumGothic(
+                                                color: Colors.black,
+                                                )),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(true); // User confirms deletion
+                                            },
+                                            child: Text("삭제",style: GoogleFonts.nanumGothic(
+                                              color: Colors.red,
+                                            ),),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                  if (confirmDelete == true) {
+                                    // User confirmed deletion, perform deletion here
+                                    await FirebaseFirestore.instance.collection('user').doc(userUID).update({
+                                      'lectureList': FieldValue.arrayRemove([lectureId])
+                                    });
+                                  }
+                                },
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -135,7 +173,7 @@ class _StudyPageState extends State<StudyPage> {
                                     gradient : LinearGradient(
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
-                                        colors: [Color(0xfffff1eb),Color(0xfface0f9)]
+                                        colors: [Color(0xff9fccfa),Color(0xff0974f1)]
                                     ),
                                     borderRadius: BorderRadius.circular(17),
                                   ),

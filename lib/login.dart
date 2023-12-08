@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:teamwork/nav.dart';
 
 import 'color/color.dart';
 
@@ -33,16 +32,39 @@ class _LoginPageState extends State<LoginPage> {
     return authResult;
   }
 
+  Future<void> checkAndNavigate(UserCredential userCredential) async {
+    try {
+      final String uid = userCredential.user!.uid;
 
-  Future<UserCredential> signInAnonymously() async {
-    return await _auth.signInAnonymously();
+      var userDoc = await _firestore.collection('user').doc(uid).collection('login').doc(uid).get();
+
+      if (userDoc.exists) {
+        bool addAccount = userDoc['addAccount'] ?? false;
+
+        if (addAccount) {
+          Navigator.pushReplacementNamed(
+            context, '/home',
+          );
+        } else {
+          Navigator.pushReplacementNamed(
+            context, '/onboarding',
+          );
+        }
+      } else {
+        Navigator.pushReplacementNamed(
+          context, '/onboarding',
+        );
+      }
+    } catch (e) {
+      print('Error during user document retrieval: $e');
+      // 여기에서 에러를 핸들링하거나 필요에 따라 사용자에게 알림을 표시할 수 있습니다.
+    }
   }
 
+
+
   void _onLoginSuccess(UserCredential userCredential) async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => BottomNavigation()),
-    );
+    await checkAndNavigate(userCredential);
   }
 
 

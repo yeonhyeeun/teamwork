@@ -80,11 +80,6 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<bool> showAnswer(int selectedChoiceIndex) async {
     User? user = FirebaseAuth.instance.currentUser;
-    String? userId;
-
-    if (user != null) {
-      userId = user.uid; // Assign value to userId
-    }
 
     int correctAnswerIndex = quizData[currentQuestionIndex]['correctAnswerIndex'];
     bool isCorrect = selectedChoiceIndex == correctAnswerIndex;
@@ -101,15 +96,15 @@ class _QuizPageState extends State<QuizPage> {
           fontSize: 16.0,
         );
         await FirebaseFirestore.instance.collection('lecture').doc(widget.lectureId)
-            .collection('quiz').doc(userId)
+            .collection('quiz').doc(userUID)
             .update({'number' : FieldValue.increment(1)});
         await FirebaseFirestore
             .instance.collection('event')
-            .doc(userId)
+            .doc(userUID)
             .update({'point' : FieldValue.increment(10)});
         await FirebaseFirestore
             .instance.collection('event')
-            .doc(userId)
+            .doc(userUID)
             .update({'quiz' : FieldValue.increment(1)});
       } else {
         Fluttertoast.showToast(
@@ -122,11 +117,11 @@ class _QuizPageState extends State<QuizPage> {
           fontSize: 16.0,
         );
         await FirebaseFirestore.instance.collection('lecture').doc(widget.lectureId)
-            .collection('quiz').doc(userId)
+            .collection('quiz').doc(userUID)
             .update({'wrong' : FieldValue.increment(1)});
         await FirebaseFirestore
             .instance.collection('event')
-            .doc(userId)
+            .doc(userUID)
             .update({'quiz' : FieldValue.increment(1)});
       }
 

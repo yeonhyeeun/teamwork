@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teamwork/login.dart';
 import 'package:teamwork/model/lecture.dart';
 import 'package:teamwork/nav.dart';
+import 'package:teamwork/onboarding.dart';
 import 'package:teamwork/splash.dart';
 import 'package:teamwork/study.dart';
 import 'package:teamwork/study_func/addquiz.dart';
@@ -27,6 +28,7 @@ class _StudyJoyAppState extends State<StudyJoyApp> {
         '/home': (BuildContext context) => BottomNavigation(),
         '/study':(BuildContext context) => StudyPage(),
         '/addquiz': (BuildContext context) => AddQuestionPage(),
+        '/onboarding': (BuildContext context) => OnBoardingPage(),
       },
     );
   }

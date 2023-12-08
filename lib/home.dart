@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   num _value = 0;
   num point = 0;
   num quiz = 0;
+  num targetNum = 0;
   String? userUID;
   String? userName;
   Stream<QuerySnapshot>? _lectureStream;
@@ -89,6 +90,7 @@ class _HomePageState extends State<HomePage> {
         userDay = userDoc['day'] ?? 0;
         point = userDoc['point'];
         quiz = userDoc['quiz'];
+        targetNum = userDoc['targetNumber'];
       });
     }
 
@@ -159,35 +161,20 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
-                      'assets/icons/computer.svg',
+                      'assets/icons/u1F4E2.svg',
                       width: 40,
                       height: 40,
                     ),
                     Text(
                       // '$lectureList[] 퀴즈', // 작동할 수 있게 user의 lectureList 항목 개별로 가져올 수 있도록
-                      'Computer Network 퀴즈',
+                      '전공 과목들은 추가 예정입니다',
                       style: GoogleFonts.nanumGothic(
                           color: Colors.black,
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0.0,
-                          padding: EdgeInsets.zero,
-                          backgroundColor: CustomColor.brightRed,
-                          textStyle: GoogleFonts.nanumGothic(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold)),
-                      child: Text(
-                        '이어서',
-                        style: GoogleFonts.nanumGothic(color: Colors.white),
-                      ),
                     ),
                   ],
                 ),
@@ -227,7 +214,7 @@ class _HomePageState extends State<HomePage> {
                           animationDuration: 1000,
                           radius: 30,
                           lineWidth: 8,
-                          percent: quiz / 100,
+                          percent: quiz / targetNum,
                           progressColor: CustomColor.brightRed,
                           backgroundColor: Colors.white,
                           circularStrokeCap: CircularStrokeCap.round,
@@ -235,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '$quiz/100',
+                                '$quiz/$targetNum',
                                 style: GoogleFonts.nanumGothic(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -386,7 +373,7 @@ class _HomePageState extends State<HomePage> {
                                       .get();
                                   var lectureList =
                                       userDoc['lectureList'] ?? [];
-
+                                  if(!mounted) return;
                                   if (lectureList.contains(docID)) {
                                     showDialog(
                                       context: context,
@@ -396,12 +383,16 @@ class _HomePageState extends State<HomePage> {
                                         elevation: 0,
                                         title: const Text('알림'),
                                         content:
-                                            Text('$name 과목은 이미 수강 목록에 있습니다.'),
+                                            Text('이미 수강 목록에 있습니다.',style: GoogleFonts.nanumGothic(
+                                              color: Colors.black,
+                                            ),),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () =>
                                                 Navigator.pop(context),
-                                            child: const Text('확인'),
+                                            child: Text('확인',style: GoogleFonts.nanumGothic(
+                                              color: Colors.black,
+                                            ),),
                                           ),
                                         ],
                                       ),
@@ -418,17 +409,23 @@ class _HomePageState extends State<HomePage> {
                                       backgroundColor: Colors.white,
                                       elevation: 0.0,
                                       title: const Text('강의 수강하기'),
-                                      content: Text('$name을 수강하시겠습니까?'),
+                                      content: Text('$name을 수강하시겠습니까?',style: GoogleFonts.nanumGothic(
+                                        color: Colors.black,
+                                      ),),
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () =>
-                                              Navigator.pop(context, 'Cancel'),
-                                          child: const Text('Cancel'),
+                                              Navigator.pop(context, '취소'),
+                                          child: Text('취소',style: GoogleFonts.nanumGothic(
+                                            color: Colors.black,
+                                          ),),
                                         ),
                                         TextButton(
                                           onPressed: () =>
-                                              Navigator.pop(context, 'OK'),
-                                          child: const Text('OK'),
+                                              Navigator.pop(context, '확인'),
+                                          child: Text('확인',style: GoogleFonts.nanumGothic(
+                                            color: Colors.black,
+                                          ),),
                                         ),
                                       ],
                                     ),
@@ -444,6 +441,10 @@ class _HomePageState extends State<HomePage> {
                                       'lectureList':
                                           FieldValue.arrayUnion([docID])
                                     });
+
+                                    await FirebaseFirestore.instance.collection('lecture').doc(docID)
+                                        .collection('quiz').doc(userUID)
+                                        .set({'wrong' : 0, 'quiz': 0});
 
                                     // You can add additional logic or UI updates here
                                     print(

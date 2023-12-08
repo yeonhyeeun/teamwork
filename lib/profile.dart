@@ -114,28 +114,85 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(height: 60),
                           Row(
                             children: [
-                              Text("이름 : ",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
-                              Text(userName!,
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  "이름",
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  userName!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
                             ],
                           ),
-
+                          SizedBox(height: 10,),
                           Row(
                             children: [
-                              Text("계정 이메일 : ",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
-                              Text(userEmail!,
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  "이메일",
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  userEmail!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
                             ],
                           ),
-
+                          SizedBox(height: 10,),
                           Row(
                             children: [
-                              Text("전공 : ",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
-                              Text(userMajor!,
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  "전공",
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  userMajor!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
                             ],
                           ),
 
