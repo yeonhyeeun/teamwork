@@ -64,58 +64,68 @@ class _QuizPageState extends State<QuizPage> {
     if (currentQuestionIndex < quizData.length - 1) {
       bool isCorrect = await showAnswer(_selectedChoiceIndex);
 
-      if (isCorrect) {
         setState(() {
           currentQuestionIndex++;
           _selectedChoiceIndex = -1;
         });
-      }
     } else {
       // Handle quiz completion or navigate to the next screen.
       bool isCorrect = await showAnswer(_selectedChoiceIndex);
-      if (isCorrect) {
+
         Navigator.pushNamed(context, '/home');
-      }
+
     }
   }
 
 
   Future<bool> showAnswer(int selectedChoiceIndex) async {
-    int correctAnswerIndex = quizData[currentQuestionIndex]['correctAnswerIndex'];
+    User? user = FirebaseAuth.instance.currentUser;
 
+    int correctAnswerIndex = quizData[currentQuestionIndex]['correctAnswerIndex'];
     bool isCorrect = selectedChoiceIndex == correctAnswerIndex;
 
-    if (isCorrect) {
-      Fluttertoast.showToast(
-        msg: "정답입니다!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.lightBlueAccent,
-        textColor: Colors.black,
-        fontSize: 16.0,
-      );
-      await FirebaseFirestore.instance
-          .collection('lecture')
-          .doc(widget.lectureId)
-          .collection('quiz')
-          .doc(userUID)
-          .update({
-        'number': FieldValue.increment(1),
-      });
+    if (user != null) {
+      if (isCorrect) {
+        Fluttertoast.showToast(
+          msg: "정답입니다!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.lightBlueAccent,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+        await FirebaseFirestore.instance.collection('lecture').doc(widget.lectureId)
+            .collection('quiz').doc(userUID)
+            .update({'number' : FieldValue.increment(1)});
+        await FirebaseFirestore
+            .instance.collection('event')
+            .doc(userUID)
+            .update({'point' : FieldValue.increment(10)});
+        await FirebaseFirestore
+            .instance.collection('event')
+            .doc(userUID)
+            .update({'quiz' : FieldValue.increment(1)});
+      } else {
+        Fluttertoast.showToast(
+          msg: "오답입니다!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        await FirebaseFirestore.instance.collection('lecture').doc(widget.lectureId)
+            .collection('quiz').doc(userUID)
+            .update({'wrong' : FieldValue.increment(1)});
+        await FirebaseFirestore
+            .instance.collection('event')
+            .doc(userUID)
+            .update({'quiz' : FieldValue.increment(1)});
+      }
 
-    } else {
-      Fluttertoast.showToast(
-        msg: "오답입니다!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
     }
-
     return isCorrect;
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/input_borders/gradient_outline_input_border.dart';
 import 'package:teamwork/color/color.dart';
 
 class SearchBarWidget extends StatefulWidget {
@@ -25,13 +26,15 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         decoration: InputDecoration(
           hintText: '이번학기 내 전공 과목 검색하기',
           hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: GradientOutlineInputBorder(
+            gradient: LinearGradient(colors: [CustomColor.primary, Colors.blue]),
+            width: 2,
             borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(color: CustomColor.blue),
           ),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: GradientOutlineInputBorder(
+            gradient: LinearGradient(colors: [CustomColor.primary, Colors.purple]),
+            width: 2,
             borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(color: CustomColor.blue),
           ),
           suffixIcon: IconButton(
             onPressed: () {

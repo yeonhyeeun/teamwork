@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:teamwork/nav.dart';
 
 import 'color/color.dart';
 
@@ -32,16 +32,39 @@ class _LoginPageState extends State<LoginPage> {
     return authResult;
   }
 
+  Future<void> checkAndNavigate(UserCredential userCredential) async {
+    try {
+      final String uid = userCredential.user!.uid;
 
-  Future<UserCredential> signInAnonymously() async {
-    return await _auth.signInAnonymously();
+      var userDoc = await _firestore.collection('user').doc(uid).collection('login').doc(uid).get();
+
+      if (userDoc.exists) {
+        bool addAccount = userDoc['addAccount'] ?? false;
+
+        if (addAccount) {
+          Navigator.pushReplacementNamed(
+            context, '/home',
+          );
+        } else {
+          Navigator.pushReplacementNamed(
+            context, '/onboarding',
+          );
+        }
+      } else {
+        Navigator.pushReplacementNamed(
+          context, '/onboarding',
+        );
+      }
+    } catch (e) {
+      print('Error during user document retrieval: $e');
+      // 여기에서 에러를 핸들링하거나 필요에 따라 사용자에게 알림을 표시할 수 있습니다.
+    }
   }
 
+
+
   void _onLoginSuccess(UserCredential userCredential) async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => BottomNavigation()),
-    );
+    await checkAndNavigate(userCredential);
   }
 
 
@@ -52,10 +75,19 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(40.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 10.0),
-            const Text('Study Joy',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text('쉽고 빠르고 간편하게 공부하는 즐거움',style: GoogleFonts.nanumGothic(
+                color: Colors.grey,
+                fontSize: 10,
+              ),),
+            ),
+            Text('Study Joy',style: GoogleFonts.katibeh(
+                color: Colors.black, fontWeight: FontWeight.bold,fontSize: 50),),
             SizedBox(height: 10,),
+
             Container(
               child: ElevatedButton(
                 onPressed: () async {
@@ -80,6 +112,15 @@ class _LoginPageState extends State<LoginPage> {
                         'lectureList': [],
                       });
                     }
+                    FieldValue serverTimestamp = FieldValue.serverTimestamp();
+
+
+                    // Firestore에 서버 시간으로 날짜 저장
+                    await FirebaseFirestore.instance
+                        .collection('event')
+                        .doc(uid)
+                        .set(
+                        {'lastLoginDate': serverTimestamp}, SetOptions(merge: true));
                   }
                 },
                 child: Column(

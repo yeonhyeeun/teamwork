@@ -246,7 +246,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     padding: EdgeInsets.zero,
-                                    backgroundColor: CustomColor.brightRed,
+                                    backgroundColor: CustomColor.red,
                                     textStyle: GoogleFonts.nanumGothic(
                                         color: Colors.white,
                                         fontSize: 20,
