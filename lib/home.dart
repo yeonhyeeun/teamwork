@@ -432,7 +432,7 @@ class _HomePageState extends State<HomePage> {
                                   );
 
                                   // Check the result and update Firebase if the user clicked 'OK'
-                                  if (result == 'OK') {
+                                  if (result == '확인') {
                                     // Update Firebase with the lecture name
                                     await FirebaseFirestore.instance
                                         .collection('user')
