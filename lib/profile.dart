@@ -19,6 +19,9 @@ class _ProfilePageState extends State<ProfilePage> {
   String userMajor = '';
   bool isGoogleSignIn = false;
 
+  // List<dynamic> userProblems = []; // 사용자 문제를 저장할 리스트
+
+
   void _signOut(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -29,12 +32,29 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    fetchUser();
-    fetchMajor();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   fetchUser();
+  //   fetchMajor();
+  //
+  //   fetchUserProblems(); // 문제 데이터를 불러오는 함수 호출
+  // }
+
+  // Firestore에서 사용자 문제 데이터를 가져오는 함수
+  // Future<void> fetchUserProblems() async {
+  //   try {
+  //     var snapshot = await FirebaseFirestore.instance
+  //         .collection('userProblems') // 문제 데이터가 저장된 콜렉션명
+  //         .doc(userUID)
+  //         .get();
+  //     setState(() {
+  //       userProblems = snapshot.data()!['problems']; // 'problems'는 문제 데이터 필드명
+  //     });
+  //   } catch (e) {
+  //     print('Error fetching user problems from Firestore: $e');
+  //   }
+  // }
 
   void fetchUser(){
     User? user = FirebaseAuth.instance.currentUser;
@@ -47,6 +67,8 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     }
   }
+
+
   Future<void> fetchMajor() async {
       try {
         var snapshot = await FirebaseFirestore.instance
@@ -205,6 +227,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
+
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: userProblems.length,
+            //     itemBuilder: (context, index) {
+            //       return ListTile(
+            //         title: Text(userProblems[index]['title']), // 문제 제목
+            //         subtitle: Text(userProblems[index]['description']), // 문제 설명
+            //       );
+            //     },
+            //   ),
+            // ),
 
           ],
         ),
