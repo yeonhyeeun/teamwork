@@ -57,7 +57,6 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       print('Error during user document retrieval: $e');
-      // 여기에서 에러를 핸들링하거나 필요에 따라 사용자에게 알림을 표시할 수 있습니다.
     }
   }
 

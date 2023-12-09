@@ -107,13 +107,28 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ),
           ),
           SizedBox(height: 20),
-          DropdownButton<String>(
+          DropdownButtonFormField<String>(
             value: selectedMajor,
             onChanged: (String? newValue) {
               setState(() {
                 selectedMajor = newValue;
               });
             },
+            dropdownColor: Colors.white,
+            decoration: InputDecoration(
+              hintText: '전공',
+              hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
+              enabledBorder: GradientOutlineInputBorder(
+                gradient: LinearGradient(colors: [CustomColor.primary, Colors.blue]),
+                width: 2,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              focusedBorder: GradientOutlineInputBorder(
+                gradient: LinearGradient(colors: [CustomColor.primary, Colors.purple]),
+                width: 2,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
             items: <String>[
               '글로벌리더쉽학부', '국제어문학부','경영경제학부'
               ,'법학부','커뮤니케이션학부','공간환경시스템공학부'
