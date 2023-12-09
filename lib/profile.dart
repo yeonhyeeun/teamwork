@@ -32,14 +32,14 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   fetchUser();
-  //   fetchMajor();
-  //
-  //   fetchUserProblems(); // 문제 데이터를 불러오는 함수 호출
-  // }
+  @override
+  void initState() {
+    super.initState();
+    fetchUser();
+    fetchMajor();
+
+    // fetchUserProblems(); // 문제 데이터를 불러오는 함수 호출
+  }
 
   // Firestore에서 사용자 문제 데이터를 가져오는 함수
   // Future<void> fetchUserProblems() async {

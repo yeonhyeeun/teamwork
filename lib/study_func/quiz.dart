@@ -136,12 +136,42 @@ class _QuizPageState extends State<QuizPage> {
 
   }
 
+  bool isBookmarked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColor.primary,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_outline_rounded,color: CustomColor.brightRed,size: 35,))],
+        actions: [
+          // 클릭 액션 추가
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isBookmarked = !isBookmarked;
+
+                if (isBookmarked) {
+                  Fluttertoast.showToast(
+                      msg: "저장되었습니다",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                  );
+                }
+
+                // 값 토글
+              });
+            },
+            icon: Icon(
+              isBookmarked ? Icons.bookmark : Icons.bookmark_outline_rounded,
+              color: CustomColor.brightRed,
+              size: 35,
+            ),
+          )
+        ],
         title: Text(
           '${currentQuestionIndex + 1} of ${quizData.length}',
           style: GoogleFonts.nanumGothic(
