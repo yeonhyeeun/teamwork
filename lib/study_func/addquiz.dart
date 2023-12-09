@@ -64,6 +64,38 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
     setState(() {});
   }
 
+  List<String> subjects = []; // Firestore에서 가져온 과목 목록
+  String selectedSubject = ''; // 사용자가 선택한 과목
+
+
+// 강의 목록 가져오기
+  Future<void> fetchLectures() async {
+    try {
+      var snapshot = await FirebaseFirestore.instance.collection('lecture').get();
+      List<String> fetchedLectures = [];
+      for (var doc in snapshot.docs) {
+        fetchedLectures.add(doc.data()['name']); // 강의 이름을 가져옵니다.
+      }
+      setState(() {
+        subjects = fetchedLectures;
+        if (subjects.isNotEmpty) {
+          selectedSubject = subjects.first; // 기본적으로 첫 번째 강의를 선택합니다.
+        }
+      });
+    } catch (e) {
+      print('Error fetching lectures from Firestore: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchLectures();
+  }
+
+
+
+
   Widget buildChoiceItem(int index) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
@@ -221,6 +253,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                           // IconButton
                           return Column(
                             children: [
+
                               IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -229,6 +262,41 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                                 },
                                 icon: Icon(Icons.add_circle_outline, color: CustomColor.primary, size: 30,),
                               ),
+
+
+                              // 과목 선택
+                              DropdownButton<String>(
+                                value: selectedSubject,
+                                icon: const Icon(Icons.arrow_drop_down),
+                                elevation: 16,
+                                style: GoogleFonts.nanumGothic(
+                                  fontSize: 15,
+                                  color: Colors.blueAccent,
+                                ),
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.blueAccent,
+                                ),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedSubject = newValue!;
+                                  });
+                                },
+                                items: subjects.map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: GoogleFonts.nanumGothic(), // 나눔 고딕 폰트를 여기에도 적용합니다.
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+
+                              SizedBox(height: 10,),
+
+
+
                               ElevatedButton(
                                 onPressed: () {
                                   addQuestionToFirestore(context);
@@ -309,7 +377,8 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('문제 등록하기 성공!'),
+          // 며칠 후 등록하겠다로 변경
+          content: Text('문제 등록 성공! \n문제 확인 후 등록되기 때문에 실제 등록까지는 시간이 걸릴 수 있습니다.'),
         ),
       );
     } catch (e) {
