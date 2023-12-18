@@ -44,41 +44,39 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCg4VH2g17hbJgzew_6lyC6F_PpwXVPKEk',
-    appId: '1:179683281529:web:9bb9abcfcda0584d1322a8',
-    messagingSenderId: '179683281529',
-    projectId: 'study-joy',
-    authDomain: 'study-joy.firebaseapp.com',
-    storageBucket: 'study-joy.appspot.com',
+    apiKey: 'AIzaSyDyK-JapzH-nExBL7PcTwjM-GZX5kTbhJ8',
+    appId: '1:315108969937:web:74de5c38e1fdfa44e1e4f0',
+    messagingSenderId: '315108969937',
+    projectId: 'joystudy-97b83',
+    authDomain: 'joystudy-97b83.firebaseapp.com',
+    storageBucket: 'joystudy-97b83.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDEnGWPigD_ZFWC8tn4123niuxLE3ojqgA',
-    appId: '1:179683281529:android:f8ef9acd288fd7571322a8',
-    messagingSenderId: '179683281529',
-    projectId: 'study-joy',
-    storageBucket: 'study-joy.appspot.com',
+    apiKey: 'AIzaSyAJ6HjpSgEsGnCWUv5NHSfBXtSt8lq_MRE',
+    appId: '1:315108969937:android:47800c941ed5307ce1e4f0',
+    messagingSenderId: '315108969937',
+    projectId: 'joystudy-97b83',
+    storageBucket: 'joystudy-97b83.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAlT5cZsqYXyM-Wblr1F-Egpbuxi2JDO4Y',
-    appId: '1:179683281529:ios:517718f53c5a76a81322a8',
-    messagingSenderId: '179683281529',
-    projectId: 'study-joy',
-    storageBucket: 'study-joy.appspot.com',
-    androidClientId: '179683281529-hbiknmh1apn3u45lhnub51rmb3s1en13.apps.googleusercontent.com',
-    iosClientId: '179683281529-ci0uaiepp5tuvc11qnse7o3jii8r8h57.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBZRuajFHMgzTa3NvaDDp9q_Fwm8jMLkzo',
+    appId: '1:315108969937:ios:32cca586b560a9b7e1e4f0',
+    messagingSenderId: '315108969937',
+    projectId: 'joystudy-97b83',
+    storageBucket: 'joystudy-97b83.appspot.com',
+    iosClientId: '315108969937-h4ai7v55kln5i2k8oku4fojutf1gb6s3.apps.googleusercontent.com',
     iosBundleId: 'com.example.teamwork',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAlT5cZsqYXyM-Wblr1F-Egpbuxi2JDO4Y',
-    appId: '1:179683281529:ios:e5ef5d305bebd9181322a8',
-    messagingSenderId: '179683281529',
-    projectId: 'study-joy',
-    storageBucket: 'study-joy.appspot.com',
-    androidClientId: '179683281529-hbiknmh1apn3u45lhnub51rmb3s1en13.apps.googleusercontent.com',
-    iosClientId: '179683281529-lim1e222vbast21m0ht3mlkl45ur478q.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBZRuajFHMgzTa3NvaDDp9q_Fwm8jMLkzo',
+    appId: '1:315108969937:ios:9d9d12c4d270eaf8e1e4f0',
+    messagingSenderId: '315108969937',
+    projectId: 'joystudy-97b83',
+    storageBucket: 'joystudy-97b83.appspot.com',
+    iosClientId: '315108969937-9t9jg3p4b812k52ss4c8uvcrrnp1jtj5.apps.googleusercontent.com',
     iosBundleId: 'com.example.teamwork.RunnerTests',
   );
 }

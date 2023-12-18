@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:teamwork/login.dart';
 import 'package:teamwork/model/lecture.dart';
 import 'package:teamwork/nav.dart';
-import 'login.dart';
+import 'package:teamwork/onboarding.dart';
+import 'package:teamwork/splash.dart';
+import 'package:teamwork/study.dart';
+import 'package:teamwork/study_func/addquiz.dart';
+
 
 class StudyJoyApp extends StatefulWidget {
   const StudyJoyApp({Key? key}) : super(key: key);
+
   @override
   State<StudyJoyApp> createState() => _StudyJoyAppState();
 }
@@ -17,8 +23,12 @@ class _StudyJoyAppState extends State<StudyJoyApp> {
       title: 'StudyJoy',
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => LoginPage(),
+        '/': (BuildContext context) => SplashPage(),
+        '/login' : (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => BottomNavigation(),
+        '/study':(BuildContext context) => StudyPage(),
+        '/addquiz': (BuildContext context) => AddQuestionPage(),
+        '/onboarding': (BuildContext context) => OnBoardingPage(),
       },
     );
   }
@@ -26,20 +36,18 @@ class _StudyJoyAppState extends State<StudyJoyApp> {
 
 class StudyJoyAppState extends ChangeNotifier {
   var favorites = <Lecture>[];
-  void tappedFavorite(Lecture lecture) {
-    if(favorites.contains(lecture)) {
+
+  void tappedLecture(Lecture lecture) {
+    if (favorites.contains(lecture)) {
       favorites.remove(lecture);
-    }
-    else {
+    } else {
       favorites.add(lecture);
     }
     notifyListeners();
   }
-  void removedFavorite(Lecture lecture) {
+
+  void removedLecture(Lecture lecture) {
     favorites.remove(lecture);
     notifyListeners();
   }
-
-
-
 }

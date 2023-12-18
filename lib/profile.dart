@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:teamwork/color/color.dart';
 
@@ -13,7 +15,12 @@ class _ProfilePageState extends State<ProfilePage> {
   String? userEmail;
   String? userPhoto;
   String? userName;
+  // 전공 추가
+  String userMajor = '';
   bool isGoogleSignIn = false;
+
+  // List<dynamic> userProblems = []; // 사용자 문제를 저장할 리스트
+
 
   void _signOut(BuildContext context) async {
     try {
@@ -29,11 +36,28 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     fetchUser();
+    fetchMajor();
+
+    // fetchUserProblems(); // 문제 데이터를 불러오는 함수 호출
   }
 
-  void fetchUser() {
-    User? user = FirebaseAuth.instance.currentUser;
+  // Firestore에서 사용자 문제 데이터를 가져오는 함수
+  // Future<void> fetchUserProblems() async {
+  //   try {
+  //     var snapshot = await FirebaseFirestore.instance
+  //         .collection('userProblems') // 문제 데이터가 저장된 콜렉션명
+  //         .doc(userUID)
+  //         .get();
+  //     setState(() {
+  //       userProblems = snapshot.data()!['problems']; // 'problems'는 문제 데이터 필드명
+  //     });
+  //   } catch (e) {
+  //     print('Error fetching user problems from Firestore: $e');
+  //   }
+  // }
 
+  void fetchUser(){
+    User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       setState(() {
         userUID = user.uid;
@@ -44,14 +68,31 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+
+  Future<void> fetchMajor() async {
+      try {
+        var snapshot = await FirebaseFirestore.instance
+            .collection('user')
+            .doc(userUID)
+            .get();
+          setState(() {
+            userMajor = snapshot['major'];
+          });
+      } catch (e) {
+        print('Error fetching data from Firestore: $e');
+      }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Page'),
+        title: Text('My Page',style: GoogleFonts.abrilFatface(color: Colors.white,fontSize: 25)),
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: CustomColor.primary,
+        elevation: 0.0,
         actions: [
           IconButton(
             onPressed: () => _signOut(context),
@@ -61,12 +102,11 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 73,),
             Container(
-              width: 380,
+              width: 400,
               height: 550,
               child: Card(
                 color: Colors.white,
@@ -90,12 +130,96 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
                           SizedBox(height: 60),
-                          Text(userName!),
-                          Text(userEmail!),
+                          Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  "이름",
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  userName!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  "이메일",
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  userEmail!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  "전공",
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  border: Border.all(width: 2, color: CustomColor.primary),
+                                ),
+                                child: Text(
+                                  userMajor!,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: 20,),
+
                         ],
                       ),
                     ),
@@ -103,6 +227,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
+
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: userProblems.length,
+            //     itemBuilder: (context, index) {
+            //       return ListTile(
+            //         title: Text(userProblems[index]['title']), // 문제 제목
+            //         subtitle: Text(userProblems[index]['description']), // 문제 설명
+            //       );
+            //     },
+            //   ),
+            // ),
+
           ],
         ),
       ),

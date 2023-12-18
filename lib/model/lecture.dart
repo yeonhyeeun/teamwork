@@ -1,13 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Lecture {
   final String name;
-  // final String imageURL;
-  // final String description;
-  // final String documentId;
-  // final String userUID;
-  // late int likeNumber;
-  // final List<dynamic> userList;
-
-  Lecture({required this.name});
+  final List<dynamic> answer;
+  final List<dynamic> question;
+  Lecture({required this.name,required this.question,required this.answer});
 }

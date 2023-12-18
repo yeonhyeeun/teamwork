@@ -1,4 +1,4 @@
-package com.example.teamwork
+package com.example.studyjoy
 
 import io.flutter.embedding.android.FlutterActivity
 
